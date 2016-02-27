@@ -5,67 +5,80 @@
         echo "THIS IS HELP ?!\n";
         exit(0);
     }
-    function err($errcode) 
+
+    function err( $errcode ) 
     {
         echo "Program error, exit code '" . $errcode . "' type '--help' for more info.\n" ; // stderr
-        exit($errcode);
+        exit( $errcode );
     }
-    function not_in($actual, $parsed)
+
+    function not_in( $array, $element )
     {
-        foreach ($parsed as $key => $x_value) 
+        foreach ( $array as $key => $value ) 
         {
-            if ($key == $actual) 
-            {
+            if ( $key == $element ) 
                 return false;
-            }
         }
         return true;
     }
-    function parse_args($args, $count)
+
+    function parse_args( $args, $count )
     {
-        $shrt_opt_rex     = "^-(s|n|i|l|c|a|t)$";
-        $shrt_opt_rex_val = "^-(r|h)=(.*)";
-        $long_opt_rex_val = "^--(input|array-name|output|item-name)=(.*)";
-        $parsing['foo']='bar';
-        for ($i=1; $i <=$count-1 ; $i++) 
+        $shrt_opt_rex       = "^-(s|n|i|l|c|a|t)$";
+        $long_opt_rex       = "^--(index-items)$";
+        $shrt_opt_rex_val   = "^-(r|h)=(.*)";
+        $long_opt_rex_val   = "^--(input|output|array-name|item-name)=(.*)";
+        $parsing['foo']     = "bar";
+
+        if ( $count == 1 ) 
+            return false;
+
+        for ( $i=1; $i <= $count-1; $i++ ) 
         { 
-            if( ereg( $long_opt_rex_val, $args[$i], $option) || ereg( $shrt_opt_rex_val, $args[$i], $option) )
+            if( ereg( $long_opt_rex_val, $args[$i], $option ) || ereg( $shrt_opt_rex_val, $args[$i], $option ) )
             {
-                if ( not_in($option[1],$parsing) && $option[2] != null ) 
-                    $parsing[$option[1]]=$option[2];
+                if ( not_in( $parsing, $option[1] ) && ( $option[2] != null ) ) 
+                    $parsing[$option[1]] = $option[2];
                 else               
-                    err(100);
+                    return false;
             }
-            elseif ( ereg( $shrt_opt_rex, $args[$i], $option))
+            elseif ( ereg( $shrt_opt_rex, $args[$i], $option ) || ereg( $long_opt_rex, $args[$i], $option ) )
             {
-                if ( not_in($option[1],$parsing) ) 
-                    $parsing[$option[1]]=true;
+                if ( not_in( $parsing, $option[1] ) )
+                    $parsing[$option[1]] = true;
                 else               
-                    err(100);
+                    return false;
             }
             else
-            {
-                err(100);
-            }       
-            echo "LOOP --------------\n";   
+                return false;       
         }
-        unset($parsing['foo']);
+        unset( $parsing['foo'] );
         return $parsing;
+    }
+
+    function check_args( $args )
+    {
+        if ( $args === false ) 
+            return false;
+        if ( not_in( $args, 'h' ) ) 
+            $args['h'] = "-";
+
+        return $args;
     }
     /*
     ** end of function declaration 
     **/
-    if ( $argv[1]=="--help" ) // iba samostatne???
-    {
-        if ($argc==2) 
-            help();
-        else 
-            err(100);
-    }
     
-    $arg=parse_args($argv, $argc);
-    var_dump($arg);
+    if ( ( $argc == 2 ) && ( $argv[1] === "--help" ) ) // iba samostatne???     
+        help();
+    if ( ( $args = check_args( parse_args( $argv, $argc ) ) ) === false ) 
+        err(100);
+    if ( ( $json_input = fopen( $args['input'], "r" ) ) === false ) 
+        err(111);
 
+    var_dump($args);
+    fclose($json_input);
+    
     // end of script
 /*
     --help
@@ -111,5 +124,8 @@
     --start=n   inicializace inkrementálního čitače pro indexaci prvků pole na zadané kladné celé 
                 číslo n včetně nuly (implicitně n = 1)
                 (nutno kombinovat s parametrem --index-items, jinak chyba s návratovým kódem 1)
+
+    -t, --index-items ke každému prvku pole bude přidán atribut index s určením indexu prvku
+            v tomto poli (číslování začíná od 1, pokud není parametrem --start určeno jinak).
     */
 ?>
