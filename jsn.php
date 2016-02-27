@@ -71,10 +71,40 @@
         help();
     if ( ( $args = check_args( parse_args( $argv, $argc ) ) ) === false ) 
         err(100);
-    if ( ( $json_input = fopen( $args['input'], "r" ) ) === false && ! ( fclose( $json_input ) ) )
+    if ( ( $json_input = file_get_contents( realpath($args['input']) ) ) === false )
         err(111);
-    $json_input = json_decode($args['input'],true);
-      
+    $json_input = json_decode($json_input,true);
+    var_dump($json_input); // WHY null ? 
+
+    /*$json = 
+    '{
+        "glossary": {
+            "title": "example glossary",
+            "GlossDiv": {
+                "title": "S",
+                "GlossList": {
+                    "GlossEntry": {
+                        "ID": "SGML",
+                        "SortAs": "SGML",
+                        "GlossTerm": "Standard Generalized Markup Language",
+                        "Acronym": "SGML",
+                        "Abbrev": "ISO 8879:1986",
+                        "GlossDef": {
+                            "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                            "GlossSeeAlso": ["GML", "XML"]
+                        },
+                        "GlossSee": "markup"
+                    }
+                }
+            }
+        }
+    }';*/
+
+    //var_dump(json_decode($json));
+    //var_dump(json_decode($json, true));
+    
+    $writer = new XMLWriter();
+
     // end of script
 /*
     --input=filename (UTF-8) v json
