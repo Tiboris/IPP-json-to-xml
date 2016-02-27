@@ -15,9 +15,9 @@
     function parse_args( $args, $count )
     {
         $shrt_opt_rex       = "^-(s|n|i|l|c|a|t)$";
-        $long_opt_rex       = "^--(index-items)$";
+        $long_opt_rex       = "^--(index-items|array-size)$";
         $shrt_opt_rex_val   = "^-(r|h)=(.*)";
-        $long_opt_rex_val   = "^--(input|output|array-name|item-name)=(.*)";
+        $long_opt_rex_val   = "^--(input|output|array-name|item-name|start)=(.*)";
 
         if ( $count == 1 ) 
             return false;
@@ -48,9 +48,19 @@
     {
         if ( $args === false ) 
             return false;
+        if ( isset( $args['start'] ) )
+        {
+            if ( ! isset( $args['index-items'] ) )
+                return false;
+            if ( ereg( "^[0-9]*$", $args['start'] ) ) 
+                $args['start']=(int)$args['start'];
+            else
+                return false;
+        }
+        else
+            $args['start']=1;
         if ( ! isset( $args['h'] ) ) 
-            $args['h'] = "-";
-        // todo
+            $args['h'] = "-";       
         return $args;
     }
     /*
@@ -61,18 +71,13 @@
         help();
     if ( ( $args = check_args( parse_args( $argv, $argc ) ) ) === false ) 
         err(100);
-    if ( ( $json_input = fopen( $args['input'], "r" ) ) === false ) 
+    if ( ( $json_input = fopen( $args['input'], "r" ) ) === false && ! ( fclose( $json_input ) ) )
         err(111);
-
-    var_dump($args);
-    fclose($json_input);
-    
+    $json_input = json_decode($args['input'],true);
+      
     // end of script
 /*
-    --help
-
     --input=filename (UTF-8) v json
-
     --outpu=filename (UTF-8) v XML
     
     -h=subst    ve jméně elementu odvozeném z dvojice jméno-hodnota nahraďte každý nepovolený
