@@ -12,23 +12,12 @@
         exit( $errcode );
     }
 
-    function not_in( $array, $element )
-    {
-        foreach ( $array as $key => $value ) 
-        {
-            if ( $key == $element ) 
-                return false;
-        }
-        return true;
-    }
-
     function parse_args( $args, $count )
     {
         $shrt_opt_rex       = "^-(s|n|i|l|c|a|t)$";
         $long_opt_rex       = "^--(index-items)$";
         $shrt_opt_rex_val   = "^-(r|h)=(.*)";
         $long_opt_rex_val   = "^--(input|output|array-name|item-name)=(.*)";
-        $parsing['foo']     = "bar";
 
         if ( $count == 1 ) 
             return false;
@@ -37,14 +26,14 @@
         { 
             if( ereg( $long_opt_rex_val, $args[$i], $option ) || ereg( $shrt_opt_rex_val, $args[$i], $option ) )
             {
-                if ( not_in( $parsing, $option[1] ) && ( $option[2] != null ) ) 
+                if ( ! isset( $parsing[$option[1]] ) && ( $option[2] != null ) ) 
                     $parsing[$option[1]] = $option[2];
                 else               
                     return false;
             }
             elseif ( ereg( $shrt_opt_rex, $args[$i], $option ) || ereg( $long_opt_rex, $args[$i], $option ) )
             {
-                if ( not_in( $parsing, $option[1] ) )
+                if ( ! isset( $parsing[$option[1]] ) )
                     $parsing[$option[1]] = true;
                 else               
                     return false;
@@ -52,7 +41,6 @@
             else
                 return false;       
         }
-        unset( $parsing['foo'] );
         return $parsing;
     }
 
@@ -60,7 +48,7 @@
     {
         if ( $args === false ) 
             return false;
-        if ( not_in( $args, 'h' ) ) 
+        if ( ! isset( $args['h'] ) ) 
             $args['h'] = "-";
         // todo
         return $args;
