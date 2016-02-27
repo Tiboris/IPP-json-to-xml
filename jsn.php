@@ -23,25 +23,18 @@
     }
     function parse_args($args, $count)
     {
-        $shrt_opt_rex     = "^-(n|s|i|l|c|a|t)$";
+        $shrt_opt_rex     = "^-(s|n|i|l|c|a|t)$";
         $shrt_opt_rex_val = "^-(r|h)=(.*)";
         $long_opt_rex_val = "^--(input|array-name|output|item-name)=(.*)";
         $parsing['foo']='bar';
         for ($i=1; $i <=$count-1 ; $i++) 
         { 
-            if( ereg( $long_opt_rex_val, $args[$i], $option) )
+            if( ereg( $long_opt_rex_val, $args[$i], $option) || ereg( $shrt_opt_rex_val, $args[$i], $option) )
             {
                 if ( not_in($option[1],$parsing) && $option[2] != null ) 
                     $parsing[$option[1]]=$option[2];
                 else               
                     err(100);
-            }
-            elseif ( ereg( $shrt_opt_rex_val, $args[$i], $option) )
-            {
-                if ( not_in($option[1],$parsing) && $option[2] != null ) 
-                    $parsing[$option[1]]=$option[2];
-                else               
-                    err(100); 
             }
             elseif ( ereg( $shrt_opt_rex, $args[$i], $option))
             {
