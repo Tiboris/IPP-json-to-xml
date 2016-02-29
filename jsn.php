@@ -49,7 +49,7 @@
             return false;
         if ( isset( $args['start'] ) )
         {
-            if ( ! isset($args['index-items']) )
+            if ( ! isset( $args['index-items'] ) )
                 return false;
             if ( ereg("^[0-9]*$", $args['start']) ) 
                 $args['start']=(int)$args['start'];
@@ -59,7 +59,9 @@
         else
             $args['start']=1;
         if ( ! isset( $args['h'] ) ) 
-            $args['h'] = "-";       
+            $args['h'] = "-"; 
+        if ( ! isset( $args['array-name'] ) ) 
+            $args['array-name']="array";
         return $args;
     }
     
@@ -81,10 +83,10 @@
         help();
     if ( ( $args = check_args(parse_args($argv, $argc)) ) === false ) 
         err(100);
-    if ( ( $json_input = json_decode(file_get_contents(realpath($args['input'])), true) ) === false )
+    if ( ( $json_input = json_decode(file_get_contents(realpath($args['input']))) ) === false )
         err(111);
 
-    //var_dump($json_input); 
+    var_dump($args); 
     
     $writer = new XMLWriter();
     $writer->openURI(realpath($args['output']));
@@ -92,7 +94,7 @@
         $writer->startDocument('1.0','UTF-8');
     $writer->setIndent(4);
     
-    write_xml( $writer, $json_input, $args );
+    //write_xml( $writer, $json_input, $args );
 
     // end of script
 /*
