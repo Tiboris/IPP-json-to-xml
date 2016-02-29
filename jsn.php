@@ -6,34 +6,33 @@
         exit(0);
     }
 
-    function err( $errcode ) 
+    function err($errcode) 
     {
         echo "Program error, exit code '" . $errcode . "' type '--help' for more info.\n" ; // stderr
-        exit( $errcode );
+        die($errcode);
     }
 
-    function parse_args( $args, $count )
+    function parse_args($args, $count)
     {
         $shrt_opt_rex       = "^-(s|n|i|l|c|a|t)$";
         $long_opt_rex       = "^--(index-items|array-size)$";
         $shrt_opt_rex_val   = "^-(r|h)=(.*)";
         $long_opt_rex_val   = "^--(input|output|array-name|item-name|start)=(.*)";
 
-        if ( $count == 1 ) 
+        if ($count == 1) 
             return false;
-
-        for ( $i=1; $i <= $count-1; $i++ ) 
+        for ( $i = 1; $i <= $count-1; $i++ ) 
         { 
-            if( ereg( $long_opt_rex_val, $args[$i], $option ) || ereg( $shrt_opt_rex_val, $args[$i], $option ) )
+            if( ereg($long_opt_rex_val, $args[$i], $option) || ereg($shrt_opt_rex_val, $args[$i], $option) )
             {
-                if ( ! isset( $parsing[$option[1]] ) && ( $option[2] != null ) ) 
+                if ( ! isset($parsing[$option[1]]) && ( $option[2] != null ) ) 
                     $parsing[$option[1]] = $option[2];
                 else               
                     return false;
             }
-            elseif ( ereg( $shrt_opt_rex, $args[$i], $option ) || ereg( $long_opt_rex, $args[$i], $option ) )
+            elseif ( ereg($shrt_opt_rex, $args[$i], $option) || ereg($long_opt_rex, $args[$i], $option) )
             {
-                if ( ! isset( $parsing[$option[1]] ) )
+                if ( ! isset($parsing[$option[1]]) )
                     $parsing[$option[1]] = true;
                 else               
                     return false;
@@ -44,15 +43,15 @@
         return $parsing;
     }
 
-    function check_args( $args )
+    function check_args($args)
     {
         if ( $args === false ) 
             return false;
         if ( isset( $args['start'] ) )
         {
-            if ( ! isset( $args['index-items'] ) )
+            if ( ! isset($args['index-items']) )
                 return false;
-            if ( ereg( "^[0-9]*$", $args['start'] ) ) 
+            if ( ereg("^[0-9]*$", $args['start']) ) 
                 $args['start']=(int)$args['start'];
             else
                 return false;
@@ -63,47 +62,37 @@
             $args['h'] = "-";       
         return $args;
     }
+    
+    function write_xml($writer, $json_input, $args)
+    {
+        foreach ($json_input as $key => $value) 
+        {
+            echo "--------------------------\n";
+            echo $key."->";
+            echo $value."\n";
+            write_xml($writer, $json_input[$key], $args);
+        }
+    }
     /*
     ** end of function declaration 
     **/
     
     if ( ( $argc == 2 ) && ( $argv[1] === "--help" ) ) // iba samostatne???     
         help();
-    if ( ( $args = check_args( parse_args( $argv, $argc ) ) ) === false ) 
+    if ( ( $args = check_args(parse_args($argv, $argc)) ) === false ) 
         err(100);
-    if ( ( $json_input = file_get_contents( realpath($args['input']) ) ) === false )
+    if ( ( $json_input = json_decode(file_get_contents(realpath($args['input'])), true) ) === false )
         err(111);
-    $json_input = json_decode($json_input,true);
-    var_dump($json_input); // WHY null ? 
 
-    /*$json = 
-    '{
-        "glossary": {
-            "title": "example glossary",
-            "GlossDiv": {
-                "title": "S",
-                "GlossList": {
-                    "GlossEntry": {
-                        "ID": "SGML",
-                        "SortAs": "SGML",
-                        "GlossTerm": "Standard Generalized Markup Language",
-                        "Acronym": "SGML",
-                        "Abbrev": "ISO 8879:1986",
-                        "GlossDef": {
-                            "para": "A meta-markup language, used to create markup languages such as DocBook.",
-                            "GlossSeeAlso": ["GML", "XML"]
-                        },
-                        "GlossSee": "markup"
-                    }
-                }
-            }
-        }
-    }';*/
-
-    //var_dump(json_decode($json));
-    //var_dump(json_decode($json, true));
+    //var_dump($json_input); 
     
     $writer = new XMLWriter();
+    $writer->openURI(realpath($args['output']));
+    if ( ! isset($args['n']) )
+        $writer->startDocument('1.0','UTF-8');
+    $writer->setIndent(4);
+    
+    write_xml( $writer, $json_input, $args );
 
     // end of script
 /*
