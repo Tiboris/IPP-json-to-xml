@@ -69,10 +69,33 @@
     {
         foreach ($json_input as $key => $value) 
         {
-            echo "--------------------------\n";
-            echo $key."->";
-            echo $value."\n";
-            write_xml($writer, $json_input[$key], $args);
+            echo $key."\n";
+            if (!is_int($key)) {
+                 $writer->startElement($key); 
+            }
+            else
+            {
+                $writer->startElement("item"); 
+            }
+            if (is_object( $value)) 
+            {
+                write_xml($writer, $value, $args);
+            }
+            else if (is_array( $value)) 
+            {
+                 $writer->startElement("array"); 
+                write_xml($writer, $value, $args);
+                 $writer->endElement(); 
+            }
+            else{
+                
+                $writer->text($value);
+            }
+            $writer->endElement();    
+
+
+            
+            //write_xml($writer, $json_input[$key], $args);
         }
     }
     /*
@@ -83,18 +106,20 @@
         help();
     if ( ( $args = check_args(parse_args($argv, $argc)) ) === false ) 
         err(100);
-    if ( ( $json_input = json_decode(file_get_contents(realpath($args['input']))) ) === false )
+    if ( ( $json_input = file_get_contents(realpath($args['input'])) ) === false )
         err(111);
+    $json_input = json_decode($json_input, false);
 
-    var_dump($args); 
+    //var_dump($args); 
     
     $writer = new XMLWriter();
     $writer->openURI(realpath($args['output']));
     if ( ! isset($args['n']) )
         $writer->startDocument('1.0','UTF-8');
-    $writer->setIndent(4);
-    
-    //write_xml( $writer, $json_input, $args );
+    $writer->setIndent(true);
+    //var_dump($json_input);
+    print_r($json_input);
+    write_xml( $writer, $json_input, $args );
 
     // end of script
 /*
