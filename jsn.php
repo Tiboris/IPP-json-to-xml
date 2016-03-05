@@ -2,7 +2,51 @@
 <?php
     function help()
     {
-        echo "THIS IS HELP ?!\n";
+        $help=
+        "\t--input=filename\n 
+        \t\t(UTF-8) in json\n\n
+    \t--outpu=filename 
+        \t\t(UTF-8) in XML\n\n
+    \t-h=subst    
+        \t\tve jméně elementu odvozeném z dvojice jméno-hodnota nahraďte každý nepovolený\n
+        \t\tznak ve jméně XML značky řetězcem subst. Implicitně (i při nezadaném parametru -h) uvažu-\n
+        \t\tjte nahrazování znakem pomlčka (-). Vznikne-li po nahrazení invalidní jméno XML elementu,\n
+        \t\tskončete s chybou a návratovým kódem 51\n\n
+    \t-n
+        \tnegenerovat XML hlavičku 1 na výstup skriptu (vhodné například v případě kombinování více výsledků)\n\n
+    \t-r=root-element\n
+        \tjméno párového kořenového elementu obalujícího výsledek. Pokud nebude\n
+        \tzadán, tak se výsledek neobaluje kořenovým elementem, ač to potenciálně porušuje validitu\n
+        \tXML (skript neskončí s chybou). Zadání řetězce root-element vedoucího na nevalidní XML\n
+        \tznačku ukončí skript s chybou a návratovým kódem 50 (nevalidní znaky nenahrazujte).\n\n
+    \t--array-name=array-element \n 
+        \t\ttento parametr umožní přejmenovat element obalující pole\n
+        \t\t\tz implicitní hodnoty array na array-element. Zadání řetězce array-element vedoucího na\n
+        \tnevalidní XML značku ukončí skript s chybou a návratovým kódem 50 (nevalidní znaky ne-\n
+        \t\tnahrazujte).\n\n
+    \t--item-name=item-element    \n
+        \t\tanalogicky, tímto parametrem lze změnit jméno elementu pro\n
+        \t\tprvky pole (implicitní hodnota je item). Zadání řetězce item-element vedoucího na nevalidní\n
+        \t\tXML značku ukončí skript s chybou a návratovým kódem 50 (nevalidní znaky nenahrazujte).\n\n
+    \t-s  \n
+        \t\thodnoty (v dvojici i v poli) typu string budou transformovány na textové elementy místo atributů.\n\n
+    \t-i  \n
+        \t\thodnoty (v dvojici i v poli) typu number budou transformovány na textové elementy místo atributů.\n\n
+    \t-l  \n
+        \t\thodnoty literálů (true, false, null) budou transformovány na elementy <true/>,<false/> a <null/> místo na atributy\n\n
+    \t-c  \n
+        \t\taktivuje překlad problematických znaků.\n\n
+    \t-a, --array-size  \n  
+        \t\tu pole bude doplněn atribut size s uvedením počtu prvků v tomto poli\n\n
+    \t--start=n   \n
+        \t\tinicializace inkrementálního čitače pro indexaci prvků pole na zadané kladné celé\n 
+        \t\tčíslo n včetně nuly (implicitně n = 1)\n
+        \t\t(nutno kombinovat s parametrem --index-items, jinak chyba s návratovým kódem 1)\n\n
+    \t-t, --index-items \n  
+        \t\tke každému prvku pole bude přidán atribut index s určením indexu prvku\n
+        \t\tv tomto poli (číslování začíná od 1, pokud není parametrem --start určeno jinak).\n";
+        
+        echo $help;
         exit(0);
     }
 
@@ -70,8 +114,9 @@
         foreach ($json_input as $key => $value) 
         {
             echo $key."\n";
-            if (!is_int($key)) {
-                 $writer->startElement($key); 
+            if (!is_int($key)) 
+            {
+                $writer->startElement($key); 
             }
             else
             {
@@ -83,18 +128,15 @@
             }
             else if (is_array( $value)) 
             {
-                 $writer->startElement("array"); 
+                $writer->startElement("array"); 
                 write_xml($writer, $value, $args);
-                 $writer->endElement(); 
+                $writer->endElement(); 
             }
             else{
                 
                 $writer->text($value);
             }
             $writer->endElement();    
-
-
-            
             //write_xml($writer, $json_input[$key], $args);
         }
     }
@@ -121,50 +163,5 @@
     print_r($json_input);
     write_xml( $writer, $json_input, $args );
 
-    // end of script
-/*
-    --input=filename (UTF-8) v json
-    --outpu=filename (UTF-8) v XML
-    
-    -h=subst    ve jméně elementu odvozeném z dvojice jméno-hodnota nahraďte každý nepovolený
-                znak ve jméně XML značky řetězcem subst. Implicitně (i při nezadaném parametru -h) uvažu-
-                jte nahrazování znakem pomlčka (-). Vznikne-li po nahrazení invalidní jméno XML elementu,
-                skončete s chybou a návratovým kódem 51
-    
-    -n      negenerovat XML hlavičku 1 na výstup skriptu (vhodné například v případě kombinování více výsledků)
-    
-    -r=root-element     jméno párového kořenového elementu obalujícího výsledek. Pokud nebude
-                        zadán, tak se výsledek neobaluje kořenovým elementem, ač to potenciálně porušuje validitu
-                        XML (skript neskončí s chybou). Zadání řetězce root-element vedoucího na nevalidní XML
-                        značku ukončí skript s chybou a návratovým kódem 50 (nevalidní znaky nenahrazujte).
-    
-    --array-name=array-element  tento parametr umožní přejmenovat element obalující pole
-                                z implicitní hodnoty array na array-element. Zadání řetězce array-element vedoucího na
-                                nevalidní XML značku ukončí skript s chybou a návratovým kódem 50 (nevalidní znaky ne-
-                                nahrazujte).
-    
-    --item-name=item-element    analogicky, tímto parametrem lze změnit jméno elementu pro
-                                prvky pole (implicitní hodnota je item). Zadání řetězce item-element vedoucího na nevalidní
-                                XML značku ukončí skript s chybou a návratovým kódem 50 (nevalidní znaky nenahrazujte).
-    
-    -s hodnoty (v dvojici i v poli) typu string budou transformovány na textové elementy místo atributů.
-    
-    -i hodnoty (v dvojici i v poli) typu number budou transformovány na textové elementy místo atributů.
-    
-    -l hodnoty literálů (true, false, null) budou transformovány na elementy <true/>,<false/> a <null/> místo na atributy
-    
-    -c aktivuje překlad problematických znaků.
-    
-    -a, --array-size u pole bude doplněn atribut size s uvedením počtu prvků v tomto poli
-    
-    -t, --index-items ke každému prvku pole bude přidán atribut index s určením indexu prvku v tomto poli 
-        (číslování začíná od 1, pokud není parametrem --start určeno jinak).
-
-    --start=n   inicializace inkrementálního čitače pro indexaci prvků pole na zadané kladné celé 
-                číslo n včetně nuly (implicitně n = 1)
-                (nutno kombinovat s parametrem --index-items, jinak chyba s návratovým kódem 1)
-
-    -t, --index-items ke každému prvku pole bude přidán atribut index s určením indexu prvku
-            v tomto poli (číslování začíná od 1, pokud není parametrem --start určeno jinak).
-    */
+    // end of script    
 ?>
