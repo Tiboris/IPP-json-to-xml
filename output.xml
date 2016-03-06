@@ -13,10 +13,10 @@
     <GlossDef>
      <para>A meta-markup language, used to create markup languages such as DocBook.</para>
      <GlossSeeAlso>
-      <array>
-       <item>GML</item>
-       <item>XML</item>
-      </array>
+      <pole size="2">
+       <item index="10">GML</item>
+       <item index="11">XML</item>
+      </pole>
      </GlossSeeAlso>
     </GlossDef>
     <GlossSee>markup</GlossSee>
