@@ -55,10 +55,15 @@
         echo "Program error, exit code '" . $errcode . "' type '--help' for more info.\n" ; // stderr
         die($errcode);
     }
-
+    /*
+    ** function parse_args returns 
+    **    false on wrong argument combination 
+    **    calls help when '--help' is second argument 
+    **    else return associative array of specified arguments and their value
+    **/
     function parse_args($args, $count)
     {
-        $shrt_opt_rex       = "^-(s|n|i|l|c|a|t)$";
+        $shrt_opt_rex       = "^-(n|i|l|c|a|t|s)$";
         $long_opt_rex       = "^--(index-items|array-size)$";
         $shrt_opt_rex_val   = "^-(r|h)=(.*)";
         $long_opt_rex_val   = "^--(input|output|array-name|item-name|start)=(.*)";
@@ -95,7 +100,11 @@
         }
         return $parsing;
     }
-
+    /*
+    ** function check_args returns 
+    **    false if wrong argument value 
+    **    else associative array filled of all needed arguments and their value
+    **/
     function check_args($args)
     {
         if ( $args === false ) { 
@@ -127,7 +136,9 @@
         } 
         return $args;
     }
-    
+    /*
+    ** initialization of writer and calling write_xml function
+    **/
     function write($json_input, $args)
     {
         $writer = new XMLWriter();
@@ -136,12 +147,11 @@
             $writer->startDocument('1.0','UTF-8');
         }
         $writer->setIndent(true);
-        //var_dump($args);
-        // or
-        //print_r($json_input);
         write_xml( $writer, $json_input, $args );
     }
-    
+    /*
+    ** recursively called for writing objects
+    */
     function write_xml($writer, $json_input, $args)
     {
         foreach ($json_input as $key => $value) 
@@ -159,7 +169,9 @@
             $writer->endElement();
         }
     }
-
+    /*
+    ** recursively called for writing arrays
+    */
     function write_array($writer, $array, $args)
     {
         $writer->startElement($args['array-name']);
