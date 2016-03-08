@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 
   function diffArrays($aArray1, $aArray2) {
