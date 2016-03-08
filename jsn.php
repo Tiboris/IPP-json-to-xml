@@ -185,37 +185,18 @@
             $writer->startDocument('1.0','UTF-8');
         }
         $writer->setIndent(true);
-        write_xml( $writer, $json_input, $args );
+        write_object( $writer, $json_input, $args );
 
     }
     /*
     ** recursively called for writing objects
     */
-    function write_xml($writer, $json_input, $args)
+    function write_object($writer, $json_input, $args)
     {
         foreach ($json_input as $key => $value) 
         {
             $writer->startElement($key); 
-            if ( is_object($value) ) 
-            {
-                write_xml($writer, $value, $args);
-            } 
-            elseif ( is_array($value) ) 
-            { 
-                write_array($writer, $value, $args); 
-            }
-            elseif ( ( ! isset($args['s']) && is_string($value) ) ) 
-            {
-                $writer->writeAttribute('value', $value );
-            }
-            elseif ( ! isset($args['i']) && (is_int($value) || is_float($value) ) ) 
-            {
-                $writer->writeAttribute('value', $value );
-            }
-            else
-            {
-                $writer->text($value);
-            }
+            write_value($writer, $value, $args);
             $writer->endElement();
         }
     }
@@ -237,29 +218,34 @@
             {
                 $writer->writeAttribute('index', $index++);  
             }
-            if ( is_object($value) ) 
-            {
-                write_xml($writer, $value, $args);
-            } 
-            elseif ( is_array($value) ) 
-            { 
-                write_array($writer, $value, $args);
-            }
-            elseif ( ( ! isset($args['s']) && is_string($value) ) ) 
-            {
-                $writer->writeAttribute('value', $value );
-            }
-            elseif ( ! isset($args['i']) && (is_int($value) || is_float($value) ) ) 
-            {
-                $writer->writeAttribute('value', $value );
-            }
-            else 
-            {
-                $writer->text($value);
-            }
+            write_value($writer, $value, $args);
             $writer->endElement();
         }
         $writer->endElement(); 
+    }
+    
+    function write_value($writer, $value, $args)
+    {
+        if ( is_object($value) ) 
+        {
+            write_object($writer, $value, $args);
+        } 
+        elseif ( is_array($value) ) 
+        { 
+            write_array($writer, $value, $args);
+        }
+        elseif ( ( ! isset($args['s']) && is_string($value) ) ) 
+        {
+            $writer->writeAttribute('value', $value );
+        }
+        elseif ( ! isset($args['i']) && ( is_int($value) || is_float($value) ) ) 
+        {
+            $writer->writeAttribute('value', $value );
+        }
+        else 
+        {
+            $writer->text($value);
+        }
     }
     /*
     ** end of function declaration 
@@ -268,7 +254,7 @@
     /*
     ** Input / Output chceking
     **/
-    if ( ( $args = check_args( parse_args($argv, $argc) ) ) === false ) 
+    if ( ( $args = @ check_args( parse_args($argv, $argc) ) ) === false ) 
     {
         err(1);
     }
