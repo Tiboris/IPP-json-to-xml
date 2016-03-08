@@ -180,13 +180,20 @@
     {
         $writer = new XMLWriter();
         $writer->openURI($args['output']);
+        $writer->setIndent(true);
         if ( ! isset($args['n']) ) 
         {
             $writer->startDocument('1.0','UTF-8');
         }
-        $writer->setIndent(true);
+        if ( isset($args['r']) ) 
+        {
+            $writer->startElement($args['r']); 
+        }
         write_object( $writer, $json_input, $args );
-
+        if ( isset($args['r']) ) 
+        {
+            $writer->endElement();
+        }
     }
     /*
     ** recursively called for writing objects
@@ -268,7 +275,7 @@
     } 
     else 
     {
-        fclose($xml_output);
+        @ fclose($xml_output);
     }
     if( ! is_object($json_input = @ json_decode($json_input, false)) && ! is_array($json_input) ) 
     {
