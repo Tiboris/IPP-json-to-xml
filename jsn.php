@@ -58,7 +58,7 @@
     **/
     function err($errcode) 
     {
-        echo "Program error, exit code '" . $errcode . "', type '--help' for more info.\n" ; // stderr
+        fwrite(STDERR, "Program error, exit code '" . $errcode . "', type '--help' for more info.\n"); // stderr
         die($errcode);
     }
     /*
@@ -130,7 +130,7 @@
         }
         if (! isset( $args['output']) ) 
         {
-            $args['output'] = 'php://stdout';
+            $args['output'] = 'php://output';
         }
         if ( isset( $args['t'] ) && isset( $args['index-items'] ) ) 
         {
@@ -178,14 +178,15 @@
     **/
     function write($json_input, $args)
     {
-        $writer = @ new XMLWriter();
-        $writer->openURI(realpath($args['output']));
+        $writer = new XMLWriter();
+        $writer->openURI($args['output']);
         if ( ! isset($args['n']) ) 
         {
             $writer->startDocument('1.0','UTF-8');
         }
         $writer->setIndent(true);
         write_xml( $writer, $json_input, $args );
+
     }
     /*
     ** recursively called for writing objects
@@ -195,11 +196,11 @@
         foreach ($json_input as $key => $value) 
         {
             $writer->startElement($key); 
-            if ( is_object( $value) ) 
+            if ( is_object($value) ) 
             {
                 write_xml($writer, $value, $args);
             } 
-            elseif ( is_array( $value) ) 
+            elseif ( is_array($value) ) 
             { 
                 write_array($writer, $value, $args); 
             } 
@@ -228,11 +229,11 @@
             {
                 $writer->writeAttribute('index', $index++);  
             }
-            if ( is_object( $value) ) 
+            if ( is_object($value) ) 
             {
                 write_xml($writer, $value, $args);
             } 
-            elseif ( is_array( $value) ) 
+            elseif ( is_array($value) ) 
             { 
                 write_array($writer, $value, $args);
             } 
@@ -255,11 +256,7 @@
     {
         err(1);
     }
-    if ( ( $json_input_path = realpath($args['input']) ) == NULL ) 
-    {
-        err(2);
-    }
-    if ( ( $json_input = file_get_contents($json_input_path) ) === false ) 
+    if ( ( $json_input = file_get_contents($args['input']) ) === false ) 
     {
         err(2);
     }
