@@ -274,7 +274,7 @@
     }
 
 
-    // for debugging
+    // for debugging 
     if (is_object($json_input)) {
         echo "object\n";
     }
