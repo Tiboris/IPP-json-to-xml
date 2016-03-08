@@ -272,11 +272,11 @@
     {
         err(1);
     }
-    if ( ( $json_input = file_get_contents(realpath($args['input']) ) ) === false ) 
+    if ( ( $json_input = @ file_get_contents(realpath($args['input']) ) ) === false ) 
     {
         err(2);
     }
-    if ( ( $xml_output = fopen($args['output'], 'w')) === false ) 
+    if ( ( $xml_output = @ fopen($args['output'], 'w')) === false ) 
     {
         err(3);
     } 
@@ -284,12 +284,12 @@
     {
         fclose($xml_output);
     }
-    if( ! is_object($json_input = json_decode($json_input, false)) && ! is_array($json_input) ) 
+    if( ! is_object($json_input = @ json_decode($json_input, false)) && ! is_array($json_input) ) 
     {
         err(4);
     }
 
     // starting writer
-    write($json_input, $args);
+    @ write($json_input, $args);
     // end of script    
 ?>
