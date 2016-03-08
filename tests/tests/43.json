@@ -1,0 +1,29 @@
+{
+  "widgeť": {
+    "debug": "on",
+    "window": {
+        "títle": "Sample Konfabulator Widget",
+        "name": "main_window",
+        "width": 500,
+        "height": 500
+    },
+    "imágé": { 
+        "src": "Images/Sun.png",
+        "name": "sun1",
+        "hOffset": 250,
+        "vOffset": 250,
+        "alignment": "céRnter"
+    },
+    "text": {
+        "dáta": "Click Here",
+        "sizéé": 36,
+        "style": "bold",
+        "name": "text1",
+        "hOffset": 250,
+        "vOffset": 100,
+        "alignment": "centŘ",
+        "onMouseUp": "sun1.opacity = (sun1.opacity / 100) * 90;",
+        "markupšťž": null
+    }
+  }
+}

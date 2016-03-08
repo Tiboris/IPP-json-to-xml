@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <arr>
+    <array size="3">
+      <item value="1" index="1"/>
+      <item value="2" index="2"/>
+      <item index="3">
+        <array size="3">
+          <item value="3" index="1"/>
+          <item value="4" index="2"/>
+          <item index="3">
+            <array size="2">
+              <item value="5" index="1"/>
+              <item value="6" index="2"/>
+            </array>
+          </item>
+        </array>
+      </item>
+    </array>
+  </arr>
+</root>

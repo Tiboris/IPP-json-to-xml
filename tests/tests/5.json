@@ -1,0 +1,11 @@
+{
+	"text": "my_text",
+	"obj": {
+		"txt": "lol",
+		"num": 2,
+		"obj": {
+			"arr": [ 5, 6, 7, null, false]
+		},
+		"wow": false
+	}
+}

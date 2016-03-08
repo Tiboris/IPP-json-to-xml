@@ -256,7 +256,8 @@
     {
         err(1);
     }
-    if ( ( $json_input = file_get_contents($args['input']) ) === false ) 
+
+    if ( ( $json_input = file_get_contents(realpath($args['input']) ) ) === false ) 
     {
         err(2);
     }

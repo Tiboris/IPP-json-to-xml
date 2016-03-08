@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<str value="string"/>
+<__ value="22ll"/>
+<arr>
+  <array size="3">
+    <item value="*abc"/>
+    <item value="*9abc"/>
+    <item value="33"/>
+  </array>
+</arr>
+<obj>
+  <_3 value="nope"/>
+  <_abc value="123"/>
+  <____ value="9"/>
+</obj>

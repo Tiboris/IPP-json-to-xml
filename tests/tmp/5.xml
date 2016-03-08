@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<text>my_text</text>
+<obj>
+ <txt>lol</txt>
+ <num>2</num>
+ <obj>
+  <arr>
+   <array>
+    <item>5</item>
+    <item>6</item>
+    <item>7</item>
+    <item></item>
+    <item></item>
+   </array>
+  </arr>
+ </obj>
+ <wow></wow>
+</obj>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Qwi-dget>
+  <Qde.bug>on</Qde.bug>
+  <Qwi0ndow>
+    <title>Sample Konfabulator Widget</title>
+    <name>main_window</name>
+    <width value="500"/>
+    <height value="500"/>
+  </Qwi0ndow>
+  <image>
+    <src>Images/Sun.png</src>
+    <name>sun1</name>
+    <hOffset value="250"/>
+    <vOffset value="250"/>
+    <alignment>center</alignment>
+  </image>
+  <text>
+    <data>Click Here</data>
+    <size value="36"/>
+    <style>bold</style>
+    <name>text1</name>
+    <hOffset value="250"/>
+    <vOffset value="100"/>
+    <alignment>center</alignment>
+    <onMouseUp>sun1.opacity = (sun1.opacity / 100) * 90;</onMouseUp>
+    <markup value="null"/>
+  </text>
+</Qwi-dget>

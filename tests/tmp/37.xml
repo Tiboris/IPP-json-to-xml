@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<str>string</str>
+22ll<arr>
+ <array size="3">
+  <item>*abc</item>
+  <item>*9abc</item>
+  <item>33</item>
+ </array>
+</arr>
+<obj>nope</obj>
+1239

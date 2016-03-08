@@ -1,0 +1,19 @@
+<arr>
+ <array size="6">
+  <item index="1">1</item>
+  <item index="2">2</item>
+  <item index="3">3</item>
+  <item index="4">4</item>
+  <item index="5">5</item>
+  <item index="6">6</item>
+ </array>
+</arr>
+<second>
+ <array size="5">
+  <item index="1"></item>
+  <item index="2"></item>
+  <item index="3">1</item>
+  <item index="4">false</item>
+  <item index="5">true</item>
+ </array>
+</second>

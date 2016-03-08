@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arr>
+  <array>
+    <item value="elem" index="1"/>
+    <item value="second" index="2"/>
+    <item index="3">3</item>
+    <item index="4">4</item>
+  </array>
+</arr>
+<obj>
+  <qqa5 value="900"/>
+  <qqa5>900</qqa5>
+  <ok value="null"/>
+</obj>
