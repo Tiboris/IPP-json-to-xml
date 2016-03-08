@@ -2,7 +2,7 @@
 <?php
     function help()
     {
-        $help=
+        $help =
         "
         --input=filename 
         \t(UTF-8) input has to be in json format if not set script take stdin\n
@@ -256,7 +256,6 @@
     {
         err(1);
     }
-
     if ( ( $json_input = file_get_contents(realpath($args['input']) ) ) === false ) 
     {
         err(2);
@@ -273,19 +272,6 @@
     {
         err(4);
     }
-
-
-    // for debugging 
-    if (is_object($json_input)) {
-        echo "object\n";
-    }
-    elseif (is_array($json_input)) {
-        echo "array\n";
-    }
-    else{
-        echo "ERROR\n";
-    }
-
 
     // starting writer
     write($json_input, $args);
