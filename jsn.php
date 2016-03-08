@@ -5,9 +5,9 @@
         $help=
         "
         --input=filename 
-        \t(UTF-8) in json\n
+        \t(UTF-8) input has to be in json format if not set script take stdin\n
         --outpu=filename 
-        \t(UTF-8) in XML\n
+        \t(UTF-8) output will be in XML if not set script will use stdout\n
         -h=subst    
         \tve jméně elementu odvozeném z dvojice jméno-hodnota nahraďte každý 
         \tnepovolený znak ve jméně XML značky řetězcem subst. Implicitně 
@@ -53,7 +53,9 @@
         echo $help;
         exit(0);
     }
-
+    /*
+    ** function prints error message with errcode and exits with errcode
+    **/
     function err($errcode) 
     {
         echo "Program error, exit code '" . $errcode . "', type '--help' for more info.\n" ; // stderr
@@ -72,33 +74,40 @@
         $shrt_opt_rex_val   = "^-(r|h)=(.*)";
         $long_opt_rex_val   = "^--(input|output|array-name|item-name|start)=(.*)";
 
-        if ($count == 1) { 
+        if ($count == 1) 
+        { 
             return false;
         }
-        if ( ( $count == 2 ) && ( $args[1] === "--help" ) ) {
+        if ( ( $count == 2 ) && ( $args[1] === "--help" ) ) 
+        {
             help();
         }
         for ( $i = 1; $i <= $count-1; $i++ ) 
         { 
             if( ereg($long_opt_rex_val, $args[$i], $option) || ereg($shrt_opt_rex_val, $args[$i], $option) )
             {
-                if ( ! isset($parsing[$option[1]]) && ( $option[2] != null ) ) { 
+                if ( ! isset($parsing[$option[1]]) && ( $option[2] != null ) ) 
+                { 
                     $parsing[$option[1]] = $option[2];
-                }
-                else {               
+                } 
+                else 
+                {               
                     return false;
                 }
-            }
+            } 
             elseif ( ereg($shrt_opt_rex, $args[$i], $option) || ereg($long_opt_rex, $args[$i], $option) )
             {
-                if ( ! isset($parsing[$option[1]]) ) {
+                if ( ! isset($parsing[$option[1]]) ) 
+                {
                     $parsing[$option[1]] = true;
-                }
-                else {
+                } 
+                else 
+                {
                     return false;
                 }
-            }
-            else {
+            } 
+            else 
+            {
                 return false;       
             }
         }
@@ -111,38 +120,55 @@
     **/
     function check_args($args)
     {
-        if ( $args === false ) { 
+        if ( $args === false ) 
+        { 
             return false;
         }
-        if ( isset( $args['t'] ) && isset( $args['index-items'] ) ) {
+        if ( ! isset( $args['input']) ) 
+        {
+            $args['input'] = 'php://stdin';
+        }
+        if (! isset( $args['output']) ) 
+        {
+            $args['output'] = 'php://stdout';
+        }
+        if ( isset( $args['t'] ) && isset( $args['index-items'] ) ) 
+        {
             return false;
         }
         if ( isset( $args['start'] ) ) 
         {
-            if ( ! isset( $args['t'] ) && ! isset( $args['index-items'] ) ) {
-                echo "asdas";
+            if ( ! isset( $args['t'] ) && ! isset( $args['index-items'] ) ) 
+            {
                 return false;
             }
-            if ( ( ereg("^[0-9]*$", $args['start']) ) === false ) {
+            elseif ( ( ereg("^[0-9]*$", $args['start']) ) === false ) 
+            {
                 return false;
+            } 
+            else 
+            {
+                $args['start'] = (int) $args['start']; 
             }
-            else {
-                $args['start']=(int)$args['start']; 
-            }
+        } 
+        else 
+        {
+            $args['start'] = 1;
         }
-        else {
-            $args['start']=1;
-        }
-        if ( ! isset( $args['h'] ) ) {
+        if ( ! isset( $args['h'] ) ) 
+        {
             $args['h'] = "-"; 
         }
-        if ( ! isset( $args['array-name'] ) ) {
-            $args['array-name']="array";
+        if ( ! isset( $args['array-name'] ) ) 
+        {
+            $args['array-name'] = "array";
         }
-        if ( ! isset( $args['item-name'] ) ) {
-            $args['item-name']="item";
+        if ( ! isset( $args['item-name'] ) ) 
+        {
+            $args['item-name'] = "item";
         }
-        if ( isset($args['array-size']) && $args['a'] ) {
+        if ( isset($args['array-size']) && $args['a'] ) 
+        {
             return false;
         } 
         return $args;
@@ -152,9 +178,10 @@
     **/
     function write($json_input, $args)
     {
-        $writer = new XMLWriter();
+        $writer = @ new XMLWriter();
         $writer->openURI(realpath($args['output']));
-        if ( ! isset($args['n']) ) {
+        if ( ! isset($args['n']) ) 
+        {
             $writer->startDocument('1.0','UTF-8');
         }
         $writer->setIndent(true);
@@ -168,13 +195,16 @@
         foreach ($json_input as $key => $value) 
         {
             $writer->startElement($key); 
-            if ( is_object( $value) ) {
+            if ( is_object( $value) ) 
+            {
                 write_xml($writer, $value, $args);
-            }
-            else if ( is_array( $value) ) { 
+            } 
+            elseif ( is_array( $value) ) 
+            { 
                 write_array($writer, $value, $args); 
-            }
-            else {
+            } 
+            else 
+            {
                 $writer->text($value);
             }
             $writer->endElement();
@@ -186,23 +216,28 @@
     function write_array($writer, $array, $args)
     {
         $writer->startElement($args['array-name']);
-        if ( isset($args['array-size']) || isset($args['a']) ) {
+        if ( isset($args['array-size']) || isset($args['a']) ) 
+        {
             $writer->writeAttribute('size', count($array));    
         }
         $index = $args['start'];
         foreach ($array as $key => $value)
         {
             $writer->startElement($args['item-name']);
-            if ( isset( $args['index-items']) || isset( $args['t']) ) {
+            if ( isset( $args['index-items']) || isset( $args['t']) ) 
+            {
                 $writer->writeAttribute('index', $index++);  
             }
-            if ( is_object( $value) ) {
+            if ( is_object( $value) ) 
+            {
                 write_xml($writer, $value, $args);
-            }
-            else if ( is_array( $value) ) { 
+            } 
+            elseif ( is_array( $value) ) 
+            { 
                 write_array($writer, $value, $args);
-            }
-            else {
+            } 
+            else 
+            {
                 $writer->text($value);
             }
             $writer->endElement();
@@ -216,22 +251,28 @@
     /*
     ** Input / Output chceking
     **/
-    if ( ( $args = check_args( parse_args($argv, $argc) ) ) === false ) {
+    if ( ( $args = check_args( parse_args($argv, $argc) ) ) === false ) 
+    {
         err(1);
     }
-    if ( ( $json_input_path = realpath($args['input']) ) == NULL ) {
+    if ( ( $json_input_path = realpath($args['input']) ) == NULL ) 
+    {
         err(2);
     }
-    if ( ( $json_input = file_get_contents($json_input_path) ) === false ) {
+    if ( ( $json_input = file_get_contents($json_input_path) ) === false ) 
+    {
         err(2);
     }
-    if ( ( $xml_output = fopen($args['output'], 'w')) === false ) {
+    if ( ( $xml_output = fopen($args['output'], 'w')) === false ) 
+    {
         err(3);
-    }
-    else {
+    } 
+    else 
+    {
         fclose($xml_output);
     }
-    if( ! is_array($json_input = json_decode($json_input, false)) && ! is_object($json_input) ) {
+    if( ! is_array($json_input = json_decode($json_input, false)) && ! is_object($json_input) ) 
+    {
         err(4);
     }
     // starting writer
