@@ -91,4 +91,5 @@
   $diffTime = microtime(true) - $time_start;
 
   echo "\nTotal passed/errors >> " . $good . "/" . $bad . " << in " . $diffTime . " seconds\n";
+  die( $bad );
 ?>
