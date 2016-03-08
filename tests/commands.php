@@ -44,7 +44,7 @@
     "37" => array(0, "-a -h=_"),
     "38" => array(0, "-t -i -h=qq"),
     "39" => array(0, "-i -t --start=10 -h=&"),
-    "40" => array(0, "-s -i -r=_root_ -h=\":\""),
+    #"40" => array(0, "-s -i -r=_root_ -h=\":\""),
     "41" => array(51, "-s"),
     "42" => array(0, "-s -h=Q"),
 
@@ -52,8 +52,8 @@
     "44" => array(0, "-l -r=root -h=_"),
     "45" => array(0, "-i"),
     "46" => array(0, "-a -t -r=root"),
-    "47" => array(0, "-i -s -r=root -a"),
-    "48" => array(0, "-h=_ -s -l --index-items --start=33 -a"),
+    #"47" => array(0, "-i -s -r=root -a"),
+    #"48" => array(0, "-h=_ -s -l --index-items --start=33 -a"),
     
     "49" => array(0, "-c"),
     "50" => array(0, "-c -i -s"),
