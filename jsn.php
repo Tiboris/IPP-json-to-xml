@@ -130,7 +130,7 @@
         }
         if (! isset( $args['output']) ) 
         {
-            $args['output'] = 'php://output';
+            $args['output'] = 'php://stdout';
         }
         if ( isset( $args['t'] ) && isset( $args['index-items'] ) ) 
         {
@@ -268,10 +268,24 @@
     {
         fclose($xml_output);
     }
-    if( ! is_array($json_input = json_decode($json_input, false)) && ! is_object($json_input) ) 
+    if( ! is_object($json_input = json_decode($json_input, false)) && ! is_array($json_input) ) 
     {
         err(4);
     }
+
+
+    // for debugging
+    if (is_object($json_input)) {
+        echo "object\n";
+    }
+    elseif (is_array($json_input)) {
+        echo "array\n";
+    }
+    else{
+        echo "ERROR\n";
+    }
+
+
     // starting writer
     write($json_input, $args);
     // end of script    
