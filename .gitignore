@@ -1,3 +1,4 @@
 *.xml
 *.json
 *.txt
+/tests/tmp

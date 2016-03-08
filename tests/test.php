@@ -89,7 +89,9 @@
     }
   }
   $diffTime = microtime(true) - $time_start;
-
-  echo "\nTotal passed/errors >> " . $good . "/" . $bad . " << in " . $diffTime . " seconds\n";
+  $all  = $good+$bad;
+  $perc = round($good/$all*100, 2);
+  echo "\nSummary: total/passed/errors >> " . $all . "/" . $good . "/" . $bad . " << in " . $diffTime . " seconds";
+  echo "\nSuccess: ". $perc . " %\n";
   die( $bad );
 ?>

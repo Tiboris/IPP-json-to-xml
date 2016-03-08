@@ -203,8 +203,16 @@
             elseif ( is_array($value) ) 
             { 
                 write_array($writer, $value, $args); 
-            } 
-            else 
+            }
+            elseif ( ( ! isset($args['s']) && is_string($value) ) ) 
+            {
+                $writer->writeAttribute('value', $value );
+            }
+            elseif ( ! isset($args['i']) && (is_int($value) || is_float($value) ) ) 
+            {
+                $writer->writeAttribute('value', $value );
+            }
+            else
             {
                 $writer->text($value);
             }
@@ -236,7 +244,15 @@
             elseif ( is_array($value) ) 
             { 
                 write_array($writer, $value, $args);
-            } 
+            }
+            elseif ( ( ! isset($args['s']) && is_string($value) ) ) 
+            {
+                $writer->writeAttribute('value', $value );
+            }
+            elseif ( ! isset($args['i']) && (is_int($value) || is_float($value) ) ) 
+            {
+                $writer->writeAttribute('value', $value );
+            }
             else 
             {
                 $writer->text($value);

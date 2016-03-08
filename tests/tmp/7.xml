@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-subst<num>5</num>
-<string>www</string>
+<num value="5"/>
+<string value="www"/>
 <lit></lit>

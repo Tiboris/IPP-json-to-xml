@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <arr>
  <array>
-  <a>item</a>
-  <a>item</a>
-  <a>item</a>
+  <a value="item"/>
+  <a value="item"/>
+  <a value="item"/>
   <a>58</a>
-  <a>58</a>
+  <a value="58"/>
  </array>
 </arr>
 <num>5</num>

@@ -2,13 +2,13 @@
 <text>my_text</text>
 <obj>
  <txt>lol</txt>
- <num>2</num>
+ <num value="2"/>
  <obj>
   <arr>
    <array>
-    <item>5</item>
-    <item>6</item>
-    <item>7</item>
+    <item value="5"/>
+    <item value="6"/>
+    <item value="7"/>
     <item></item>
     <item></item>
    </array>

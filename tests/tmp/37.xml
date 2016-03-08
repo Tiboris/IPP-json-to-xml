@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<str>string</str>
-22ll<arr>
+<str value="string"/>
+<arr>
  <array size="3">
-  <item>*abc</item>
-  <item>*9abc</item>
-  <item>33</item>
+  <item value="*abc"/>
+  <item value="*9abc"/>
+  <item value="33"/>
  </array>
 </arr>
-<obj>nope</obj>
-1239
+<obj value="nope"/>

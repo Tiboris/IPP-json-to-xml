@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glossary>
- <title>example glossary</title>
+ <title value="example glossary"/>
  <GlossDiv>
-  <title>S</title>
+  <title value="S"/>
   <GlossList>
    <GlossEntry>
-    <ID>SGML</ID>
-    <SortAs>SGML</SortAs>
-    <GlossTerm>Standard Generalized Markup Language</GlossTerm>
-    <Acronym>SGML</Acronym>
-    <Abbrev>ISO 8879:1986</Abbrev>
+    <ID value="SGML"/>
+    <SortAs value="SGML"/>
+    <GlossTerm value="Standard Generalized Markup Language"/>
+    <Acronym value="SGML"/>
+    <Abbrev value="ISO 8879:1986"/>
     <GlossDef>
-     <para>A meta-markup language, used to create markup languages such as DocBook.</para>
+     <para value="A meta-markup language, used to create markup languages such as DocBook."/>
      <GlossSeeAlso>
       <array>
-       <item index="10">-9.8</item>
-       <item index="11">XML</item>
+       <item index="10" value="-9.8"/>
+       <item index="11" value="XML"/>
       </array>
      </GlossSeeAlso>
     </GlossDef>
-    <GlossSee>markup</GlossSee>
+    <GlossSee value="markup"/>
    </GlossEntry>
   </GlossList>
  </GlossDiv>
