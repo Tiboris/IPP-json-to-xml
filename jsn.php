@@ -174,7 +174,7 @@
         return $args;
     }
     /*
-    ** initialization of writer and calling write_xml function
+    ** initialization of writer and calling write_ functions
     **/
     function write($json_input, $args)
     {
@@ -187,20 +187,22 @@
         }
         if ( isset($args['r']) ) 
         {
-            $writer->startElement($args['r']); 
-        }
-        write_object( $writer, $json_input, $args );
-        if ( isset($args['r']) ) 
-        {
+            $writer->startElement($args['r']);
+            write_value( $writer, $json_input, $args );
             $writer->endElement();
         }
+        else
+        {
+            write_value( $writer, $json_input, $args );
+        }
+
     }
     /*
     ** recursively called for writing objects
     */
-    function write_object($writer, $json_input, $args)
+    function write_object($writer, $object, $args)
     {
-        foreach ($json_input as $key => $value) 
+        foreach ($object as $key => $value) 
         {
             $writer->startElement($key); 
             write_value($writer, $value, $args);
@@ -230,7 +232,9 @@
         }
         $writer->endElement(); 
     }
-    
+    /*
+    ** function for writing values
+    */
     function write_value($writer, $value, $args)
     {
         if ( is_object($value) ) 
@@ -277,11 +281,13 @@
     {
         @ fclose($xml_output);
     }
-    if( ! is_object($json_input = @ json_decode($json_input, false)) && ! is_array($json_input) ) 
+    if( ! is_object( $json_input = @ json_decode($json_input, false) ) && ! is_array($json_input) ) 
     {
         err(4);
     }
-
+    if (is_array($json_input)) {
+        echo "string";
+    }
     // starting writer
     @ write($json_input, $args);
     // end of script    
