@@ -10,11 +10,17 @@
      <item value="5"/>
      <item value="6"/>
      <item value="7"/>
-     <item></item>
-     <item></item>
+     <item>
+      <null/>
+     </item>
+     <item>
+      <false/>
+     </item>
     </array>
    </arr>
   </obj>
-  <wow></wow>
+  <wow>
+   <false/>
+  </wow>
  </obj>
 </some_shit>

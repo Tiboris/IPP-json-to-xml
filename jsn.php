@@ -74,10 +74,6 @@
         $shrt_opt_rex_val   = "^-(r|h)=(.*)";
         $long_opt_rex_val   = "^--(input|output|array-name|item-name|start)=(.*)";
 
-        if ($count == 1) 
-        { 
-            return false;
-        }
         if ( ( $count == 2 ) && ( $args[1] === "--help" ) ) 
         {
             help();
@@ -214,6 +210,7 @@
     */
     function write_array($writer, $array, $args)
     {
+        //$args['array-name'] = check_name($args['array-name']);
         $writer->startElement($args['array-name']);
         if ( isset($args['array-size']) || isset($args['a']) ) 
         {
@@ -222,6 +219,7 @@
         $index = $args['start'];
         foreach ($array as $key => $value)
         {
+            //$args['item-name'] = check_name($args['item-name']);
             $writer->startElement($args['item-name']);
             if ( isset( $args['index-items']) || isset( $args['t']) ) 
             {
@@ -236,7 +234,7 @@
     ** function for writing values
     */
     function write_value($writer, $value, $args)
-    {
+    {       
         if ( is_object($value) ) 
         {
             write_object($writer, $value, $args);
@@ -245,19 +243,50 @@
         { 
             write_array($writer, $value, $args);
         }
+        elseif ( ! isset($args['i']) && ( is_int($value) || is_float($value) ) ) 
+        {
+            $writer->writeAttribute('value', $value );
+        }
         elseif ( ( ! isset($args['s']) && is_string($value) ) ) 
         {
             $writer->writeAttribute('value', $value );
         }
-        elseif ( ! isset($args['i']) && ( is_int($value) || is_float($value) ) ) 
+        elseif ( isset($args['l']) && ( $value === null || $value === false || $value === true ) ) 
         {
-            $writer->writeAttribute('value', $value );
+            if ( $value === true ) 
+            {
+                $writer->startElement("true");
+            }
+            elseif ( $value === false ) 
+            {
+                $writer->startElement("false");
+            }
+            else
+            {
+                $writer->startElement("null");
+            }
+            $writer->endElement();
         }
         else 
         {
             $writer->text($value);
         }
     }
+   /* function check_name($name)
+    {
+        if ( ! valid_name($args['array-name']) ) 
+        {
+            if (! isset($args['c'])) 
+            {
+                err(50);
+            }
+            else
+            {
+                $name=$name;
+            }
+        }
+        return $name;
+    }*/
     /*
     ** end of function declaration 
     **/
@@ -269,7 +298,7 @@
     {
         err(1);
     }
-    if ( ( $json_input = @ file_get_contents(realpath($args['input']) ) ) === false ) 
+    if ( ( $json_input = @ file_get_contents($args['input']) ) === false ) 
     {
         err(2);
     }
@@ -284,9 +313,6 @@
     if( ! is_object( $json_input = @ json_decode($json_input, false) ) && ! is_array($json_input) ) 
     {
         err(4);
-    }
-    if (is_array($json_input)) {
-        echo "string";
     }
     // starting writer
     @ write($json_input, $args);

@@ -24,5 +24,7 @@
  <vOffset value="100"/>
  <alignment value="centŘ"/>
  <onMouseUp value="sun1.opacity = (sun1.opacity / 100) * 90;"/>
- <markupšťž></markupšťž>
+ <markupšťž>
+  <null/>
+ </markupšťž>
 </root>

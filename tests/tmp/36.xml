@@ -24,7 +24,9 @@
    <vOffset>100</vOffset>
    <alignment>center</alignment>
    <onMouseUp>sun1.opacity = (sun1.opacity / 100) * 90;</onMouseUp>
-   <markup></markup>
+   <markup>
+    <null/>
+   </markup>
   </text>
   <menuitem>
    <array size="3">

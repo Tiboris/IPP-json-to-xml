@@ -10,9 +10,15 @@
 </arr>
 <second>
  <array size="5">
-  <item index="1"></item>
-  <item index="2"></item>
-  <item index="3">1</item>
+  <item index="1">
+   <null/>
+  </item>
+  <item index="2">
+   <false/>
+  </item>
+  <item index="3">
+   <true/>
+  </item>
   <item index="4" value="false"/>
   <item index="5" value="true"/>
  </array>
