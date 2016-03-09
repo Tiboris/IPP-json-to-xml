@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<my_root>
+ <arr>
+  <array>
+   <a value="item"/>
+   <a value="item"/>
+   <a value="item"/>
+   <a>58</a>
+   <a value="58"/>
+  </array>
+ </arr>
+ <num>5</num>
+</my_root>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+ <text value="my_text"/>
+ <arr>
+  <array>
+   <item value="array"/>
+   <item value="of"/>
+   <item value="3"/>
+  </array>
+ </arr>
+ <num value="9000"/>
+</root>
