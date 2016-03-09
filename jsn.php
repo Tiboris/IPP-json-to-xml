@@ -1,5 +1,6 @@
 #!/usr/bin/php
 <?php
+#JSN:xdudla00
     function help()
     {
         $help =
