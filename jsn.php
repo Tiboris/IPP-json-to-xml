@@ -201,7 +201,7 @@
     {
         foreach ($object as $key => $value) 
         {
-            $writer->startElement($key); 
+            $writer->startElement(check_name($key, $args['h'])); 
             write_value($writer, $value, $args);
             $writer->endElement();
         }
@@ -211,8 +211,8 @@
     */
     function write_array($writer, $array, $args)
     {
-        //$args['array-name'] = check_name($args['array-name']);
-        $writer->startElement($args['array-name']);
+        $array_name = check_name($args['array-name'], $args['h']);
+        $writer->startElement($array_name);
         if ( isset($args['array-size']) || isset($args['a']) ) 
         {
             $writer->writeAttribute('size', count($array));    
@@ -220,8 +220,8 @@
         $index = $args['start'];
         foreach ($array as $key => $value)
         {
-            //$args['item-name'] = check_name($args['item-name']);
-            $writer->startElement($args['item-name']);
+            $item_name = check_name($args['item-name'], $args['h']);
+            $writer->startElement($item_name);
             if ( isset( $args['index-items']) || isset( $args['t']) ) 
             {
                 $writer->writeAttribute('index', $index++);  
@@ -273,21 +273,25 @@
             $writer->text($value);
         }
     }
-   /* function check_name($name)
+    /*
+    ** function for checking names and replacing invalid arguments
+    **/
+    function check_name($name, $replacement)
     {
-        if ( ! valid_name($args['array-name']) ) 
-        {
-            if (! isset($args['c'])) 
+        $validity_rex = '<|>|"|\'|\/|\\|&';
+        if ( ereg($validity_rex, $name) ) 
+        { // if regex matches there is invalid character
+            if ( isset($args['c']) ) 
             {
-                err(50);
+                $name = ereg_replace($validity_rex , $replacement , $name);
             }
             else
             {
-                $name=$name;
+                err(50);
             }
         }
         return $name;
-    }*/
+    }
     /*
     ** end of function declaration 
     **/
