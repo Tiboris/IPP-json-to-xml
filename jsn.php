@@ -184,7 +184,7 @@
         }
         if ( isset($args['r']) ) 
         {
-            $writer->startElement($args['r']);
+            $writer->startElement(check_name($args['r'], $args['h'], false));
             write_value( $writer, $json_input, $args );
             $writer->endElement();
         }
@@ -201,17 +201,44 @@
     {
         foreach ($object as $key => $value) 
         {
-            $writer->startElement(check_name($key, $args['h'])); 
+            echo check_name($key, $args['h'], true);
+            $writer->startElement(check_name($key, $args['h'], true)); 
             write_value($writer, $value, $args);
             $writer->endElement();
         }
+    }
+    /*
+    ** function for checking names and replacing invalid arguments
+    **/
+    function check_name($name, $replacement, $allow_replace)
+    {
+        $validity_rex = '/<|>|"|\'|-|\.|\/|\\|&|&/';
+        $start_num = '/^[0-9].*/';
+        echo preg_match($validity_rex, $name);echo preg_match($start_num, $name);
+        if ( preg_match($validity_rex, $name) || preg_match($start_num, $name)) 
+        {   // if regex matches there is invalid character
+            if ( $allow_replace ) 
+            {
+                echo $name."\n";
+                $name = preg_replace($validity_rex , $replacement , $name);
+                if ( preg_match($validity_rex, $name) || preg_match($start_num, $name)) 
+                {
+                    err(51);
+                }
+            }
+            else
+            {
+                err(50);
+            }
+        }
+        return $name;
     }
     /*
     ** recursively called for writing arrays
     */
     function write_array($writer, $array, $args)
     {
-        $array_name = check_name($args['array-name'], $args['h']);
+        $array_name = check_name($args['array-name'], $args['h'], isset($args['c']));
         $writer->startElement($array_name);
         if ( isset($args['array-size']) || isset($args['a']) ) 
         {
@@ -220,7 +247,7 @@
         $index = $args['start'];
         foreach ($array as $key => $value)
         {
-            $item_name = check_name($args['item-name'], $args['h']);
+            $item_name = check_name($args['item-name'], $args['h'], isset($args['c']) );
             $writer->startElement($item_name);
             if ( isset( $args['index-items']) || isset( $args['t']) ) 
             {
@@ -274,25 +301,6 @@
         }
     }
     /*
-    ** function for checking names and replacing invalid arguments
-    **/
-    function check_name($name, $replacement)
-    {
-        $validity_rex = '<|>|"|\'|\/|\\|&';
-        if ( ereg($validity_rex, $name) ) 
-        { // if regex matches there is invalid character
-            if ( isset($args['c']) ) 
-            {
-                $name = ereg_replace($validity_rex , $replacement , $name);
-            }
-            else
-            {
-                err(50);
-            }
-        }
-        return $name;
-    }
-    /*
     ** end of function declaration 
     **/
 
@@ -320,6 +328,6 @@
         err(4);
     }
     // starting writer
-    @ write($json_input, $args);
+    write($json_input, $args);
     // end of script    
 ?>
