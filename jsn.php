@@ -201,7 +201,6 @@
         {
             write_value( $writer, $json_input, $args );
         }
-
     }
     /*
     ** recursively called for writing objects
@@ -259,20 +258,38 @@
         {
             $writer->writeAttribute('value', $value );
         }
-        elseif ( isset($args['l']) && ( $value === null || $value === false || $value === true ) ) 
+        elseif ( ( $value === null || $value === false || $value === true ) ) 
         {
-            if ( $value === true ) 
+            if (isset($args['l'])) 
             {
-                $writer->writeElement("true");
-            }
-            elseif ( $value === false ) 
-            {
-                $writer->writeElement("false");
+                if ( $value === true ) 
+                {
+                    $writer->writeElement("true");
+                }
+                elseif ( $value === false ) 
+                {
+                    $writer->writeElement("false");
+                }
+                elseif ( $value === null )
+                {
+                    $writer->writeElement("null");
+                }
             }
             else
             {
-                $writer->writeElement("null");
-            }
+                if ( $value === true ) 
+                {
+                    $writer->writeAttribute( "value", "true");
+                }
+                elseif ( $value === false ) 
+                {
+                    $writer->writeAttribute( "value", "false");
+                }
+                elseif ( $value === null )
+                {
+                    $writer->writeAttribute( "value", "null");
+                }
+            }  
         }
         else 
         {
@@ -305,11 +322,7 @@
         return $name;
     }
     /*
-    ** end of function declaration 
-    **/
-
-    /*
-    ** Input / Output chceking
+    ** end of function declaration start of Input / Output chceking
     **/
     if ( ( $args = @ check_args( parse_args($argv, $argc) ) ) === false ) 
     {
@@ -332,6 +345,6 @@
         err(4);
     }
     // starting writer
-    write($json_input, $args);
+    @ write($json_input, $args);
     // end of script    
 ?>

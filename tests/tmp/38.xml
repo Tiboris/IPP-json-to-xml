@@ -7,5 +7,8 @@
   <item index="4">4</item>
  </array>
 </arr>
-<obj value="900"/>
-900<ok></ok>
+<obj>
+ <qqa5 value="900"/>
+ <qqa5>900</qqa5>
+ <ok value="null"/>
+</obj>

@@ -55,6 +55,8 @@
     #"47" => array(0, "-i -s -r=root -a"),
     #"48" => array(0, "-h=_ -s -l --index-items --start=33 -a"),
     
+    # these 3 commented test are considerred incorrect
+
     "49" => array(0, "-c"),
     "50" => array(0, "-c -i -s"),
     "51" => array(0, "-c -h=SUBS"),

@@ -23,6 +23,6 @@
   <vOffset>100</vOffset>
   <alignment>centŘ</alignment>
   <onMouseUp>sun1.opacity = (sun1.opacity / 100) * 90;</onMouseUp>
-  <markupšťž></markupšťž>
+  <markupšťž value="null"/>
  </text>
 </widgeť>
