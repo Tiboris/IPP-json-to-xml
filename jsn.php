@@ -4,7 +4,8 @@
     function help()
     {
         $help =
-        "
+        "NAME\n\tjsn.php - script to converting *.json to *.xml format\nSYNOPSYS
+        jsn.php [PARAM]...\nOPTIONS
         --input=filename 
         \t(UTF-8) input has to be in json format if not set script take stdin\n
         --outpu=filename 
@@ -160,9 +161,17 @@
         {
             $args['array-name'] = "array";
         }
+        else
+        {
+            $args['array-name'] = check_name($args['array-name'],$args['h'],false);
+        }
         if ( ! isset( $args['item-name'] ) ) 
         {
             $args['item-name'] = "item";
+        }
+        else
+        {
+            $args['item-name'] = check_name($args['item-name'],$args['h'],false);
         }
         if ( isset($args['array-size']) && $args['a'] ) 
         {
@@ -201,45 +210,17 @@
     {
         foreach ($object as $key => $value) 
         {
-            echo check_name($key, $args['h'], true);
             $writer->startElement(check_name($key, $args['h'], true)); 
             write_value($writer, $value, $args);
             $writer->endElement();
         }
     }
     /*
-    ** function for checking names and replacing invalid arguments
-    **/
-    function check_name($name, $replacement, $allow_replace)
-    {
-        $validity_rex = '/<|>|"|\'|-|\.|\/|\\|&|&/';
-        $start_num = '/^[0-9].*/';
-        echo preg_match($validity_rex, $name);echo preg_match($start_num, $name);
-        if ( preg_match($validity_rex, $name) || preg_match($start_num, $name)) 
-        {   // if regex matches there is invalid character
-            if ( $allow_replace ) 
-            {
-                echo $name."\n";
-                $name = preg_replace($validity_rex , $replacement , $name);
-                if ( preg_match($validity_rex, $name) || preg_match($start_num, $name)) 
-                {
-                    err(51);
-                }
-            }
-            else
-            {
-                err(50);
-            }
-        }
-        return $name;
-    }
-    /*
     ** recursively called for writing arrays
     */
     function write_array($writer, $array, $args)
     {
-        $array_name = check_name($args['array-name'], $args['h'], isset($args['c']));
-        $writer->startElement($array_name);
+        $writer->startElement($args['array-name']);
         if ( isset($args['array-size']) || isset($args['a']) ) 
         {
             $writer->writeAttribute('size', count($array));    
@@ -247,8 +228,7 @@
         $index = $args['start'];
         foreach ($array as $key => $value)
         {
-            $item_name = check_name($args['item-name'], $args['h'], isset($args['c']) );
-            $writer->startElement($item_name);
+            $writer->startElement($args['item-name']);
             if ( isset( $args['index-items']) || isset( $args['t']) ) 
             {
                 $writer->writeAttribute('index', $index++);  
@@ -283,22 +263,46 @@
         {
             if ( $value === true ) 
             {
-                $writer->startElement("true");
+                $writer->writeElement("true");
             }
             elseif ( $value === false ) 
             {
-                $writer->startElement("false");
+                $writer->writeElement("false");
             }
             else
             {
-                $writer->startElement("null");
+                $writer->writeElement("null");
             }
-            $writer->endElement();
         }
         else 
         {
             $writer->text($value);
         }
+    }
+    /*
+    ** function for checking names and replacing invalid arguments
+    **/
+    function check_name($name, $replacement, $allow_replace)
+    {
+        $start_char_rex = '/^[^\p{L}|\_]/';
+        $validity_rex = '/<|>|"|\'|\/|\\|&/';
+        if ( preg_match($start_char_rex, $name) || preg_match($validity_rex, $name) ) 
+        {   // if regex matches there is invalid character
+            if ( $allow_replace ) 
+            {
+                $name = preg_replace($validity_rex , $replacement , $name);
+                $name = preg_replace($start_char_rex , $replacement , $name);
+                if ( preg_match($start_char_rex, $name) || preg_match($validity_rex, $name) ) 
+                {
+                    err(51);
+                }
+            }
+            else
+            {
+                err(50);
+            }
+        }
+        return $name;
     }
     /*
     ** end of function declaration 

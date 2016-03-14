@@ -43,7 +43,7 @@
     "36" => array(0, "-s -i -l -r=root -a"),
     "37" => array(0, "-a -h=_"),
     "38" => array(0, "-t -i -h=qq"),
-    "39" => array(0, "-i -t --start=10 -h=&"),
+    "39" => array(0, "-i -t --start=10 -h='&'"),
     #"40" => array(0, "-s -i -r=_root_ -h=\":\""),
     "41" => array(51, "-s"),
     "42" => array(0, "-s -h=Q"),
