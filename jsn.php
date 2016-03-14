@@ -293,11 +293,11 @@
         }
         else 
         {
-            $writer->text($value);
+            $writer->writeRaw($value);
         }
     }
     /*
-    ** function for checking names and replacing invalid arguments
+    ** function for checking names and replacing invalid characters
     **/
     function check_name($name, $replacement, $allow_replace)
     {
