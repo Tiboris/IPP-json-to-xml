@@ -250,9 +250,17 @@
         { 
             write_array($writer, $value, $args);
         }
-        elseif ( ! isset($args['i']) && ( is_int($value) || is_float($value) ) ) 
+        elseif ( ( is_int($value) || is_float($value) ) ) 
         {
-            $writer->writeAttribute('value', $value );
+            $value = floor($value);
+            if (isset($args['i'])) 
+            {
+                $writer->text($value);
+            }
+            else
+            {
+                $writer->writeAttribute('value', $value );
+            }
         }
         elseif ( ( ! isset($args['s']) && is_string($value) ) ) 
         {
@@ -306,7 +314,7 @@
     function check_name($name, $replacement, $allow_replace)
     {
         $start_char_rex = '/^[^\p{L}|\_]/';
-        $validity_rex = '/<|>|"|\'|\/|\\|&/';
+        $validity_rex = '/<|>|"|\'|\/|\\|&|&/';
         if ( preg_match($start_char_rex, $name) || preg_match($validity_rex, $name) ) 
         {   // if regex matches there is invalid character
             if ( $allow_replace ) 
