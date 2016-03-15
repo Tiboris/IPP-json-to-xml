@@ -39,6 +39,7 @@
 
     $tests = array_diff(scandir($testDir . "tests"), array('..', '.'));
     $results = array_diff(scandir($testDir . "results"), array('..', '.'));
+
     include($testDir . "commands.php");
 
     if (isset($consoleOptions["extend"])) 
@@ -74,9 +75,14 @@
             $good++;
             continue;
         }
-
-        $shouldBe = file_get_contents($testDir . "results/" . $xmlName);
-        $is = file_get_contents($tmpDir . $xmlName);
+        if ( ($shouldBe = file_get_contents($testDir . "results/" . $xmlName)) === false) {
+            echo "Error loading result files\n";
+            die(1);
+        }
+        if (($is = file_get_contents($tmpDir . $xmlName)) === false ) {
+            echo "Error loading generated files\n";
+            die(1);
+        }
 
         $shouldBeDoc = new DOMDocument();
         $isDoc = new DOMDocument();
