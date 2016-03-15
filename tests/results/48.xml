@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<babayaga>
+ <colors>
+  <array>
+   <item>
+    <color>r&lt;e&gt;d</color>
+    <value>#f00</value>
+   </item>
+   <item>
+    <color>g&lt;r&gt;een</color>
+    <value>#0f0</value>
+   </item>
+   <item>
+    <color>b&lt;l&gt;ue</color>
+    <value>#00f</value>
+   </item>
+   <item>
+    <color>c&lt;y&gt;an</color>
+    <value>#0ff</value>
+   </item>
+   <item>
+    <color>m&lt;a&gt;genta</color>
+    <value>#f0f</value>
+   </item>
+   <item>
+    <color>y&lt;e&gt;llow</color>
+    <value>#ff0</value>
+   </item>
+   <item>
+    <color>b&lt;l&gt;ack</color>
+    <value>#000</value>
+   </item>
+  </array>
+ </colors>
+</babayaga>

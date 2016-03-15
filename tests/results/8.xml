@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <qqqqqq>
+    <wow_array>
+      <item value="not_num"/>
+      <item value="555"/>
+      <item value="555"/>
+    </wow_array>
+  </qqqqqq>
+  <qax>
+    <a>
+      <b>
+        <wow_array>
+          <item value="c"/>
+          <item value="d"/>
+        </wow_array>
+      </b>
+    </a>
+  </qax>
+  <root>
+    <wow_array>
+      <item value="8"/>
+      <item value="8"/>
+      <item value="8"/>
+    </wow_array>
+  </root>
+</root>

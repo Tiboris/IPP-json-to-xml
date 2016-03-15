@@ -1,0 +1,25 @@
+<root>
+ <firstName>John</firstName>
+ <lastName>Smith</lastName>
+ <age value="25"/>
+ <address>
+  <streetAddress>21 2nd Street</streetAddress>
+  <city>New York</city>
+  <state>NY</state>
+  <postalCode>10021</postalCode>
+ </address>
+ <phoneNumber>
+  <array>
+   <item>
+    <type>home</type>
+    <number>212 555-1234</number>
+   </item>
+   <item>
+    <type>fax</type>
+    <number>646 555-4567</number>
+   </item>
+  </array>
+ </phoneNumber>
+ <newSubscription value="false"/>
+ <companyName value="null"/>
+</root>

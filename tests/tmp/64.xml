@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+ <test>&lt;west&gt;&amp;&quot;+ěščřžýáíé=&lt;/west&gt;</test>
+</root>

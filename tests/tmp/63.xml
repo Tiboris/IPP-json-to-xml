@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rOOt>
+ <test value="&lt;west&gt;&amp;&quot;&lt;/west&gt;"/>
+ <dalsi>
+  <null/>
+ </dalsi>
+ <poslední>
+  <true/>
+ </poslední>
+</rOOt>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget>
+  <debug value="on"/>
+  <window>
+    <title value="Sample Konfabulator Widget"/>
+    <name value="main_window"/>
+    <width>500</width>
+    <height>500</height>
+  </window>
+  <image>
+    <src value="Images/Sun.png"/>
+    <name value="sun1"/>
+    <hOffset>250</hOffset>
+    <vOffset>250</vOffset>
+    <alignment value="center"/>
+  </image>
+  <text>
+    <data value="Click Here"/>
+    <size>36</size>
+    <style value="bold"/>
+    <name value="text1"/>
+    <hOffset>250</hOffset>
+    <vOffset>100</vOffset>
+    <alignment value="center"/>
+    <onMouseUp value="sun1.opacity = (sun1.opacity / 100) * 90;"/>
+    <markup>
+      <null/>
+    </markup>
+  </text>
+  <menuitem>
+    <array size="3">
+      <item index="5">
+        <value value="New"/>
+        <onclick value="CreateNewDoc()"/>
+      </item>
+      <item index="6">
+        <value value="Open"/>
+        <onclick value="OpenDoc()"/>
+      </item>
+      <item index="7">
+        <value value="Close"/>
+        <onclick value="CloseDoc()"/>
+      </item>
+    </array>
+  </menuitem>
+</widget>

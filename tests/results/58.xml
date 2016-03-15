@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<array>
+  <item>
+    <null/>
+  </item>
+  <item value="10"/>
+  <item value="20"/>
+  <item value="30"/>    
+  <item>    
+    <true/>
+  </item>    
+</array>

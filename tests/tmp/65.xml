@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+ <firstName>John</firstName>
+ <lastName>Smith</lastName>
+ <age value="25"/>
+ <address>
+  <streetAddress>21 2nd Street</streetAddress>
+  <city>New York</city>
+  <state>NY</state>
+  <postalCode>10021</postalCode>
+ </address>
+ <phoneNumber>
+  <array size="2">
+   <item index="2">
+    <type>home</type>
+    <number>212 555-1234</number>
+   </item>
+   <item index="3">
+    <type>fax</type>
+    <number>646 555-4567</number>
+   </item>
+  </array>
+ </phoneNumber>
+ <newSubscription>
+  <false/>
+ </newSubscription>
+ <companyName>
+  <null/>
+ </companyName>
+</root>

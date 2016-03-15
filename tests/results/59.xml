@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <array size="5">
+        <pól value="null"/>
+        <pól value="10"/>
+        <pól value="20"/>
+        <pól value="30"/>
+        <pól value="true"/>
+    </array>
+</root>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tešt-élěm>
+    <firstName value="John"/>
+    <companyName value="null"/>
+    <lastName value="Smith"/>
+    <age value="25"/>
+    <phoneNumber>
+        <array>
+            <item>
+                <type value="home"/>
+                <number value="212 555-1234"/>
+            </item>
+            <item>
+                <type value="fax"/>
+                <number value="646 555-4567"/>
+            </item>
+        </array>
+    </phoneNumber>
+    <address>
+        <postalCode value="10021"/>
+        <city value="New York"/>
+        <streetAddress value="21 2nd Street"/>
+        <state value="NY"/>
+    </address>
+    <newSubscription value="false"/>
+</tešt-élěm>
