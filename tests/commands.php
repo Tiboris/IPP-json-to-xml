@@ -50,7 +50,7 @@
         "44" => array(0, "-l -r=root -h=_"),
         "45" => array(0, "-i"),
         "46" => array(0, "-a -t -r=root"),
-        "47" => array(0, "-i -s -r=babayaga" ),
+        "47" => array(0, "-t -i -s -r=babayaga" ),
         "48" => array(0, "-s -c -r=babayaga" ),
         "49" => array(0, "-c"),
         "50" => array(0, "-c -i -s"),

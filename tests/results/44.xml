@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+ <widgeť>
+  <debug value="ĺľľšn"/>
+  <window>
+   <títle value="Sample Konfabulator Widget"/>
+   <name value="main_window"/>
+   <width value="500"/>
+   <heighšľťt value="500"/>
+  </window>
+  <imágé>
+   <src value="Images/Sun.png"/>
+   <name value="sun1"/>
+   <hO__ffset value="250"/>
+   <vOffset value="250"/>
+   <alignment value="céRnter"/>
+  </imágé>
+  <text>
+   <dáta value="Click Here"/>
+   <sizéé value="36"/>
+   <styý__e value="bold"/>
+   <name value="text1"/>
+   <hOffset value="250"/>
+   <vOffset value="100"/>
+   <alignment value="centŘ"/>
+   <onMouseUp value="sun1.opacity = (sun1.opacity / 100) * 90;"/>
+   <markupšťž>
+    <null/>
+   </markupšťž>
+  </text>
+ </widgeť>
+</root>
+
