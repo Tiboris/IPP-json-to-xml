@@ -291,6 +291,10 @@
                 }
             }  
         }
+        elseif (isset($args['c']))
+        {
+            $writer->text($value);
+        }
         else 
         {
             $writer->writeRaw($value);
