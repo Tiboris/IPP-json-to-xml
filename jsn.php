@@ -4,42 +4,29 @@
     function help()
     {
         $help =
-        "NAME\n\tjsn.php - script to converting *.json to *.xml format\nSYNOPSYS
-        jsn.php [PARAM]...\nOPTIONS
+        "NAME\n\tjsn.php - script to converting *.json to *.xml format\n\nSYNOPSYS
+        jsn.php [OPTION]...\n\nOPTIONS\n
         --input=filename 
         \t(UTF-8) input has to be in json format if not set script take stdin\n
         --outpu=filename 
         \t(UTF-8) output will be in XML if not set script will use stdout\n
         -h=subst    
-        \tve jméně elementu odvozeném z dvojice jméno-hodnota nahraďte každý 
-        \tnepovolený znak ve jméně XML značky řetězcem subst. Implicitně 
-        \t(i při nezadaném parametru -h) uvažujte nahrazování znakem pomlčka (-)
-        \tVznikne-li po nahrazení invalidní jméno XML elementu, skončete s 
-        \tchybou a návratovým kódem 51\n
+        \tin name of element are invalid characters replaced always with 'subst'  
+        \tdefault: subst=\"-\"\n
         -n
-        \tnegenerovat XML hlavičku 1 na výstup skriptu (vhodné například v 
-        \tpřípadě kombinování více výsledků)\n
+        \tscript will not generate XML header\n
         -r=root-element
-        \tjméno párového kořenového elementu obalujícího výsledek. Pokud nebude
-        \tzadán, tak se výsledek neobaluje kořenovým elementem, ač to 
-        \tpotenciálně porušuje validitu XML (skript neskončí s chybou). Zadání 
-        \třetězce root-element vedoucího na nevalidní XML značku ukončí skript s
-        \tchybou a návratovým kódem 50 (nevalidní znaky nenahrazujte).\n
+        \twhen set script will generate result into 'root-element' tag\n
         --array-name=array-element  
-        \ttento parametr umožní přejmenovat element obalující pole
-        \tz implicitní hodnoty array na array-element. Zadání řetězce 
-        \tarray-element vedoucího na nevalidní XML značku ukončí skript s chybou
-        \ta návratovým kódem 50 (nevalidní znaky nenahrazujte).\n
+        \tallow to generate every array element into 'array-element' tag, 
+        \tdefault: array-element='array'\n
         --item-name=item-element    
-        \tanalogicky, tímto parametrem lze změnit jméno elementu pro prvky pole 
-        \t(implicitní hodnota je item). Zadání řetězce item-element vedoucího 
-        \tna nevalidní XML značku ukončí skript s chybou a návratovým kódem 50.\n
+        \tallow to generate every item of array into 'item-element' tag
+        \tdefault: item-element='item'\n
         -s  
-        \thodnoty (v dvojici i v poli) typu string budou transformovány 
-        \tna textové elementy místo atributů.\n
+        \tstring value from tag will be replaced with text elements\n
         -i  
-        \thodnoty (v dvojici i v poli) typu number budou transformovány 
-        \tna textové elementy místo atributů.\n
+        \tnumeric values from tag will be replaced with text elements\n
         -l  
         \tvalues of literals (true, false, null) will be transformed into 
         \t<true/>, <false/>, <null/> instead of attributes\n
@@ -51,7 +38,15 @@
         \tto each element of array will be added atribute index
         \tstarts from '1' unless parameter --start is set.\n
         --start=n   
-        \tinitialization of counter for option -t/ --index-items\n";
+        \tinitialization of counter for option -t, --index-items
+        \tcauses error when -t or --index-items option is not set\nAUTHOR
+        \tWritten by Tibor Dudlák.\nERROR EXIT CODES
+        1\t: Invalid options or their combinations
+        2\t: Invalid input file
+        3\t: Invalid output file
+        4\t: Invalid input file format
+        50\t: When options --array-name or --array-item contains invalid characters
+        51\t: When option -h is set or contains invalid characters\n";
         echo $help;
         exit(0);
     }
