@@ -1,0 +1,5 @@
+{
+	"string" : "value",
+	"int" : 10,
+	"bool" : true
+}
