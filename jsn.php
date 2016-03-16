@@ -40,7 +40,7 @@
         --start=n   
         \tinitialization of counter for option -t, --index-items
         \tcauses error when -t or --index-items option is not set\nAUTHOR
-        \tWritten by Tibor Dudlák.\nERROR EXIT CODES
+        Written by Tibor Dudlák.\nERROR EXIT CODES
         1\t: Invalid options or their combinations
         2\t: Invalid input file
         3\t: Invalid output file
