@@ -8,7 +8,7 @@
         jsn.php [OPTION]...\nOPTIONS
         --input=filename 
         \t(UTF-8) input has to be in json format if not set script take stdin\n
-        --outpu=filename 
+        --output=filename 
         \t(UTF-8) output will be in XML if not set script will use stdout\n
         -h=subst    
         \tin name of element are invalid characters replaced always with 'subst'  
@@ -77,7 +77,8 @@
         }
         for ( $i = 1; $i <= $count-1; $i++ ) 
         { 
-            if( ereg($long_opt_rex_val, $args[$i], $option) || ereg($shrt_opt_rex_val, $args[$i], $option) )
+            if( ereg($long_opt_rex_val, $args[$i], $option) 
+                || ereg($shrt_opt_rex_val, $args[$i], $option) )
             {
                 if ( ! isset($parsing[$option[1]]) && ( $option[2] != null ) ) 
                 { 
@@ -88,7 +89,8 @@
                     return false;
                 }
             } 
-            elseif ( ereg($shrt_opt_rex, $args[$i], $option) || ereg($long_opt_rex, $args[$i], $option) )
+            elseif ( ereg($shrt_opt_rex, $args[$i], $option) 
+                    || ereg($long_opt_rex, $args[$i], $option) )
             {
                 if ( ! isset($parsing[$option[1]]) ) 
                 {
