@@ -2,8 +2,7 @@
 Tests for JSON2XML project on fit vutbr
 
 ##Usage:
-- clone repo into your project folder
-- `cd JSON2XML-Tests/`
+- `cd tests/`
 - `php test.php`
 - on Merlin server `php -d open_basedir="" test.php`
 
