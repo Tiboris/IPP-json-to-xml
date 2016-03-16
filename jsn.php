@@ -3,8 +3,8 @@
 #JSN:xdudla00
     function help()
     {
-        $help =
-        "NAME\n\tjsn.php - script to convert *.json to *.xml format\nSYNOPSYS
+        $help = "NAME
+        jsn.php - script to convert *.json to *.xml format\nSYNOPSYS
         jsn.php [OPTION]...\nOPTIONS
         --input=filename 
         \t(UTF-8) input has to be in json format if not set script take stdin\n
@@ -41,12 +41,12 @@
         \tinitialization of counter for option -t, --index-items
         \tcauses error when -t or --index-items option is not set\nAUTHOR
         Written by Tibor Dudlák.\nERROR EXIT CODES
-        1\t: Invalid options or their combinations
-        2\t: Invalid input file
-        3\t: Invalid output file
-        4\t: Invalid input file format
+        1\t: Invalid options or their combination
+        2\t: Failed to read input file
+        3\t: Failed to open output file for writing
+        4\t: Invalid input file format (bad json)
         50\t: When options --array-name or --array-item contains invalid characters
-        51\t: When option -h is set or contains invalid characters\n";
+        51\t: When option -h is set to or contains invalid characters\n";
         echo $help;
         exit(0);
     }
@@ -54,7 +54,7 @@
     ** function prints error message with errcode and exits with errcode
     **/
     function err($errcode) 
-    {
+    {   // prints only that error occured and error code 
         fwrite(STDERR, "Program error, exit code '" . $errcode . "', type '--help' for more info.\n"); // stderr
         die($errcode);
     }
@@ -66,43 +66,43 @@
     **/
     function parse_args($args, $count)
     {
-        $shrt_opt_rex       = "^-(n|i|l|c|a|t|s)$";
-        $long_opt_rex       = "^--(index-items|array-size)$";
-        $shrt_opt_rex_val   = "^-(r|h)=(.*)";
-        $long_opt_rex_val   = "^--(input|output|array-name|item-name|start)=(.*)";
+        $shrt_opt_rex       = "^-(n|i|l|c|a|t|s)$";             //matches short params without value
+        $long_opt_rex       = "^--(index-items|array-size)$";   //matches long params without value
+        $shrt_opt_rex_val   = "^-(r|h)=(.*)";                   //matches short params and value
+        $long_opt_rex_val   = "^--(input|output|array-name|item-name|start)=(.*)";  //matches long params and value
 
         if ( ( $count == 2 ) && ( $args[1] === "--help" ) ) 
-        {
+        {   // if only param help is set
             help();
         }
         for ( $i = 1; $i <= $count-1; $i++ ) 
-        { 
-            if( ereg($long_opt_rex_val, $args[$i], $option) 
-                || ereg($shrt_opt_rex_val, $args[$i], $option) )
-            {
-                if ( ! isset($parsing[$option[1]]) && ( $option[2] != null ) ) 
-                { 
-                    $parsing[$option[1]] = $option[2];
+        {   
+            if( ereg($long_opt_rex_val, $args[$i], $value) 
+                || ereg($shrt_opt_rex_val, $args[$i], $value) )
+            {   // if regex matches options with value, [1]is option [2]is value
+                if ( ! isset($parsing[$value[1]]) && ( $value[2] != null ) ) 
+                {   // when script option is not already set
+                    $parsing[$value[1]] = $value[2];
                 } 
                 else 
-                {               
+                {   // when option is set causes error      
                     return false;
                 }
             } 
-            elseif ( ereg($shrt_opt_rex, $args[$i], $option) 
-                    || ereg($long_opt_rex, $args[$i], $option) )
-            {
-                if ( ! isset($parsing[$option[1]]) ) 
-                {
-                    $parsing[$option[1]] = true;
+            elseif ( ereg($shrt_opt_rex, $args[$i], $value) 
+                    || ereg($long_opt_rex, $args[$i], $value) )
+            {   // when regex matches options without value, [1]is option [2]is null
+                if ( ! isset($parsing[$value[1]]) ) 
+                {   
+                    $parsing[$value[1]] = true;
                 } 
                 else 
-                {
+                {   // when option is set causes error
                     return false;
                 }
             } 
             else 
-            {
+            {   // when other than specified option is set
                 return false;       
             }
         }
@@ -116,7 +116,7 @@
     function check_args($args)
     {
         if ( $args === false ) 
-        { 
+        {   // when parsing failed
             return false;
         }
         if ( ! isset( $args['input']) ) 
@@ -128,30 +128,30 @@
             $args['output'] = 'php://stdout';
         }
         if ( isset( $args['t'] ) && isset( $args['index-items'] ) ) 
-        {
+        {   // when -t is set --index-items can not be set it is the same option
             return false;
         }
         if ( isset( $args['start'] ) ) 
-        {
+        {   
             if ( ! isset( $args['t'] ) && ! isset( $args['index-items'] ) ) 
-            {
+            {   // start has to be combined with indexing enabled
                 return false;
             }
             elseif ( ( ereg("^[0-9]*$", $args['start']) ) === false ) 
-            {
+            {   
                 return false;
             } 
             else 
-            {
+            {   // casting to integer
                 $args['start'] = (int) $args['start']; 
             }
         } 
         else 
-        {
+        {   
             $args['start'] = 1;
         }
         if ( ! isset( $args['h'] ) ) 
-        {
+        {   
             $args['h'] = "-"; 
         }
         if ( ! isset( $args['array-name'] ) ) 
@@ -159,19 +159,19 @@
             $args['array-name'] = "array";
         }
         else
-        {
+        {   // when array-name is changed script will check name, not valid causes error 50
             $args['array-name'] = check_name($args['array-name'],$args['h'],false);
         }
         if ( ! isset( $args['item-name'] ) ) 
-        {
+        {   
             $args['item-name'] = "item";
         }
         else
-        {
+        {   // when item-name is changed script will check name, not valid causes error 50
             $args['item-name'] = check_name($args['item-name'],$args['h'],false);
         }
         if ( isset($args['array-size']) && $args['a'] ) 
-        {
+        {   // when -a is set --array-size can not be set it is the same option
             return false;
         } 
         return $args;
@@ -185,11 +185,11 @@
         $writer->openURI($args['output']);
         $writer->setIndent(true);
         if ( ! isset($args['n']) ) 
-        {
+        {   // header
             $writer->startDocument('1.0','UTF-8');
         }
         if ( isset($args['r']) ) 
-        {
+        {   // placing result into "root-element" not valid name causes error 50
             $writer->startElement(check_name($args['r'], $args['h'], false));
             write_value( $writer, $json_input, $args );
             $writer->endElement();
@@ -205,7 +205,7 @@
     function write_object($writer, $object, $args)
     {
         foreach ($object as $key => $value) 
-        {
+        {   // when string subst is invalid character causes error 51
             $writer->startElement(check_name($key, $args['h'], true)); 
             write_value($writer, $value, $args);
             $writer->endElement();
@@ -221,7 +221,7 @@
         {
             $writer->writeAttribute('size', count($array));    
         }
-        $index = $args['start'];
+        $index = $args['start'];    // index counter initialization for every array
         foreach ($array as $key => $value)
         {
             $writer->startElement($args['item-name']);
@@ -249,9 +249,9 @@
         }
         elseif ( ( is_int($value) || is_float($value) ) ) 
         {
-            $value = floor($value);
+            $value = floor($value); // need to floor number values before writing
             if (isset($args['i'])) 
-            {
+            {   // when option -i is set 
                 $writer->text($value);
             }
             else
@@ -263,10 +263,10 @@
         {
             $writer->writeAttribute('value', $value );
         }
-        elseif ( ( $value === null || $value === false || $value === true ) ) 
-        {
+        elseif ( ( $value === true || $value === false || $value === null ) ) 
+        {   // handling litterals true false and null
             if (isset($args['l'])) 
-            {
+            {   // when -l option is set for replacing literal with <literal/> tag
                 if ( $value === true ) 
                 {
                     $writer->writeElement("true");
@@ -297,7 +297,7 @@
             }  
         }
         elseif (isset($args['c']))
-        {
+        {   // translation of problematic characters
             $writer->text($value);
         }
         else 
@@ -335,15 +335,15 @@
     **/
     if ( ( $args = @ check_args( parse_args($argv, $argc) ) ) === false ) 
     {
-        err(1);
+        err(1); // wrong option combination
     }
     if ( ( $json_input = @ file_get_contents($args['input']) ) === false ) 
     {
-        err(2);
+        err(2); // problem with reading input file
     }
     if ( ( $xml_output = @ fopen($args['output'], 'w')) === false ) 
     {
-        err(3);
+        err(3); // problem with writing to file
     } 
     else 
     {
@@ -351,9 +351,9 @@
     }
     if( ! is_object( $json_input = @ json_decode($json_input, false) ) && ! is_array($json_input) ) 
     {
-        err(4);
+        err(4); // bad json
     }
-    // starting writer
+    // starting function writer
     @ write($json_input, $args);
     // end of script    
 ?>
