@@ -4,8 +4,8 @@
     function help()
     {
         $help =
-        "NAME\n\tjsn.php - script to converting *.json to *.xml format\n\nSYNOPSYS
-        jsn.php [OPTION]...\n\nOPTIONS\n
+        "NAME\n\tjsn.php - script to convert *.json to *.xml format\nSYNOPSYS
+        jsn.php [OPTION]...\nOPTIONS
         --input=filename 
         \t(UTF-8) input has to be in json format if not set script take stdin\n
         --outpu=filename 
