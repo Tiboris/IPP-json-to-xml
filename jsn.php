@@ -341,6 +341,10 @@
     {
         err(2); // problem with reading input file
     }
+    if( ! is_object( $json_input = @ json_decode($json_input, false) ) && ! is_array($json_input) ) 
+    {
+        err(4); // bad json
+    }
     if ( ( $xml_output = @ fopen($args['output'], 'w')) === false ) 
     {
         err(3); // problem with writing to file
@@ -348,10 +352,6 @@
     else 
     {
         @ fclose($xml_output);
-    }
-    if( ! is_object( $json_input = @ json_decode($json_input, false) ) && ! is_array($json_input) ) 
-    {
-        err(4); // bad json
     }
     // starting function writer
     @ write($json_input, $args);

@@ -67,6 +67,14 @@
         { # code from commands
             echo "[ERR] Test " . $name . " failed with code: " . $returnCode . " expected: " . $code . "\n";
             $bad++;
+            if ( $bad == 1) 
+            {
+                $failedTests .= "$name";
+            } 
+            else
+            {
+                $failedTests .= ", $name";
+            }
             continue;
         } 
         elseif ($returnCode == $code && $returnCode != 0) 
