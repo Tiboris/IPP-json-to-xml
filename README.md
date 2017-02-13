@@ -1,11 +1,23 @@
-# json_to_xml
-Script for converting *.json to *.xml files
+## Project :
+JSN - Script for converting *.json to *.xml files
 
-##Usage:
+[![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser/master.svg)](https://github.com/Tiboris/IPP-json-to-xml)
+![CircleCIStatus](https://circleci.com/gh/Tiboris/IPP-json-to-xml.svg?style=shield&circle-token=:circle-token)
+![CircleCIStatus](https://circleci.com/gh/Tiboris/IPP-json-to-xml.png?circle-token=:circle-token)
+
+## Class :
+IPP - Principles of Programing languages
+
+*VUT Brno FIT BIT 2r.*
+
+
+# json_to_xml
+
+## Usage:
 - `php jsn.php [option]...`
 - on Merlin server `php -d open_basedir="" jsn.php`
 
-##Options:
+## Options:
 - --input=filename
 	(UTF-8) input has to be in json format if not set script take stdin
 - --output=filename
@@ -18,7 +30,7 @@ Script for converting *.json to *.xml files
 - -r=root-element
 	when set script will generate result into 'root-element' tag
 - --array-name=array-element  
-	allow to generate every array element into 'array-element' tag, 
+	allow to generate every array element into 'array-element' tag,
 	default: array-element='array'
 - --item-name=item-element    
  	allow to generate every item of array into 'item-element' tag
@@ -28,7 +40,7 @@ Script for converting *.json to *.xml files
 - -i  
  	numeric values from tag will be replaced with text elements
 - -l  
- 	values of literals (true, false, null) will be transformed into 
+ 	values of literals (true, false, null) will be transformed into
  	<true/>, <false/>, <null/> instead of attributes
 - -c  
  	translation of problematic characters
@@ -40,3 +52,5 @@ Script for converting *.json to *.xml files
 - --start=n   
  	initialization of counter for option -t, --index-items
  	causes error when -t or --index-items option is not set
+
+ Students: Copy at your own risk ! 
